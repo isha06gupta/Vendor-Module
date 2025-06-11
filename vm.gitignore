@@ -1,0 +1,28 @@
+# Compiled files
+/target/
+*.class
+
+# Logs
+*.log
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+
+# Package files
+*.jar
+*.war
+
+# Node
+node_modules/
+
+# Environment configs
+.env
+
+# Database (optional)
+*.db

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEIL Vendor Portal</title>
+  <link rel="stylesheet" href="details.css">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="header">
+    <div class="logo-container">
+      <img src="logo.jpeg" alt="CEIL Logo" class="ceil-logo">
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html" class="active">HOME</a></li>
+        <li><a href="#">ABOUT CEIL</a></li>
+        <li><a href="#">BUSINESS SECTORS</a></li>
+        <li><a href="#">SERVICES</a></li>
+        <li><a href="#">SUSTAINABILITY</a></li>
+        <li><a href="#">FINANCIAL</a></li>
+        <li><a href="#">CAREERS</a></li>
+        <li><a href="#">CONTACT US</a></li>
+        <li><a href="#">NEWS & EVENTS</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Form Section -->
+  <div class="content-wrapper">
+    <div class="form-section">
+      <div class="registration-form-container">
+        <h1>Vendor Registration</h1>
+
+        <form id="vendorForm">
+          <div class="form-group">
+            <label for="name">Vendor Name:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="contactPerson">Contact Person:</label>
+            <input type="text" id="contactPerson" name="contactPerson" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="gstin">GSTIN:</label>
+            <input type="text" id="gstin" name="gstin" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+
+          <div class="form-group">
+            <label for="items">Standard Items:</label>
+            <input type="text" id="items" name="items" required>
+          </div>
+
+          <div class="form-group">
+            <label for="expertise">Specific Products/Services you excel in:</label>
+            <textarea id="expertise" name="expertise" rows="3" placeholder="e.g., Heavy Machinery Spares, IT Infrastructure Services, Civil Construction, Digital Marketing"></textarea>
+          </div>
+
+          <!-- MSME Field -->
+          <div class="form-group">
+            <label>Are you registered as MSME?</label>
+            <label><input type="radio" name="isMsme" value="yes" required> Yes</label>
+            <label><input type="radio" name="isMsme" value="no"> No</label>
+          </div>
+
+          <div class="form-group" id="msmeRegNoField" style="display: none;">
+            <label for="udyamRegNo">Udyam Registration Number:</label>
+            <input type="text" id="udyamRegNo" name="udyamRegNo">
+          </div>
+
+          <!-- Buttons -->
+          <div class="button-row">
+            <button type="button" id="nextBtn">Next</button>
+          </div>
+        </form>
+
+        <!-- Response Message -->
+        <div class="response" id="response"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Script -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const vendorId = localStorage.getItem('currentVendorId');
+      if (!vendorId) {
+        alert("Please log in first.");
+        window.location.href = "index.html";
+      }
+    });
+
+    // Form Submission
+    document.getElementById('vendorForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = {};
+
+      formData.forEach((value, key) => {
+        if (key === 'isMsme') {
+          data[key] = value === 'yes';
+        } else {
+          data[key] = value;
+        }
+      });
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Registering...";
+
+      try {
+        const response = await fetch('http://localhost:8080/api/vendors/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+          throw new Error(responseData.message || 'Something went wrong during registration');
+        }
+
+        document.getElementById('response').textContent = '✅ Registration successful! Please proceed to document upload.';
+        document.getElementById('response').style.color = 'green';
+        form.reset();
+
+        localStorage.setItem('currentVendorId', responseData.id);
+
+        setTimeout(() => {
+          window.location.href = 'documents.html';
+        }, 1500);
+
+      } catch (error) {
+        document.getElementById('response').textContent = '❌ Error: ' + error.message;
+        document.getElementById('response').style.color = 'red';
+        console.error('Registration error:', error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Register";
+      }
+    });
+
+    // "Next" button
+    document.getElementById('nextBtn').addEventListener('click', function () {
+      const currentVendorId = localStorage.getItem('currentVendorId');
+      if (currentVendorId) {
+        window.location.href = 'docupload.html';
+      } else {
+        alert('Please complete registration first.');
+      }
+    });
+
+    // MSME Toggle Logic
+    document.querySelectorAll('input[name="isMsme"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        const msmeRegNoField = document.getElementById('msmeRegNoField');
+        const udyamRegNoInput = document.getElementById('udyamRegNo');
+        if (this.value === 'yes') {
+          msmeRegNoField.style.display = 'block';
+          udyamRegNoInput.setAttribute('required', 'required');
+        } else {
+          msmeRegNoField.style.display = 'none';
+          udyamRegNoInput.removeAttribute('required');
+          udyamRegNoInput.value = '';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* Header (Logo and Nav) - Positioned at Top-Left */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: rgba(33, 174, 240, 0.85); /* Your new header color */
+    padding: 5px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo-container {
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.ceil-logo {
+    height: 70px;
+    width: auto;
+    display: block;
+}
+
+/* Main Navigation */
+
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav ul li {
+    position: relative;
+    margin-right: 20px;
+}
+
+.main-nav ul li:last-child {
+    margin-right: 0;
+}
+.main-nav ul li a {
+    text-decoration: none;
+    color: #f4f1f1;
+    font-weight: bold;
+    padding: 8px 0;
+    display: block;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+}
+
+.main-nav ul li a.active,
+.main-nav ul li a:hover {
+    color: #f4f6f7;
+}
+
+/* Dropdown Arrow Styling (optional) */
+.dropdown-arrow {
+    display: inline-block;
+    margin-left: 5px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #ebe6e6;
+    vertical-align: middle;
+}
+
+.main-nav ul li a:hover .dropdown-arrow {
+    border-top-color: #007bff;
+}
+
+/* Content Wrapper for centering form */
+.content-wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; /* Horizontally center the form section */
+    align-items: flex-start; /* Align form to the top of the available space */
+    padding: 40px 20px; /* Top/bottom padding for the content area */
+    box-sizing: border-box;
+}
+
+/* Form Section Styling (Vendor Registration / Document Upload) */
+.form-section {
+    width: 100%;
+    max-width: 700px; /* Max width of the entire form content block */
+    background-color: #f4f4f9; /* Match body background for seamless transition */
+}
+
+.registration-form-container { /* The white box wrapping the actual form inputs */
+    background-color: #fff; /* White background for the form body */
+    padding: 30px 40px; /* More generous padding inside the white box */
+    border-radius: 10px; /* Slightly more rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Clearer shadow */
+    padding-top: 40px; /* To give space for the heading */
+}
+
+.registration-form-container h1 { /* Targeting the H1 inside the registration-form-container */
+    color: #333;
+    margin-bottom: 25px; /* Increased margin below heading */
+    font-size: 2.5em; /* Larger heading size */
+    text-align: center; /* Centered heading */
+    font-weight: bold;
+    margin-top: 0; /* Remove default top margin on h1 inside the container */
+}
+
+/* Styles for individual form groups (label + input) */
+.form-group {
+    margin-bottom: 20px; /* Increased space between each label/input group */
+}
+
+.form-group label { /* Specific to labels within form-group */
+    display: block; /* Make label appear above input */
+    margin-bottom: 8px; /* Space between label and input */
+    font-weight: bold;
+    color: #444; /* Darker label color */
+    font-size: 1.05em; /* Slightly larger label font */
+}
+
+/* Input and Textarea Styling */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea,
+.form-group input[type="file"] { /* ADDED input[type="file"] HERE */
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1.0em;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group input[type="file"]:focus { /* ADDED input[type="file"]:focus HERE */
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 50px; /* Adjusted based on previous discussions */
+}
+
+/* New: Styling for the small helper text below file inputs */
+.form-group small {
+    display: block; /* Ensures it's on its own line */
+    margin-top: 5px; /* Space above the text */
+    color: #777; /* Lighter color for helper text */
+    font-size: 0.85em; /* Smaller font size */
+}
+
+
+/* Button Row Styling */
+.button-row {
+    display: flex;
+    justify-content: space-between; /* To push "Back" to left and "Upload" to right */
+    margin-top: 30px;
+    /* Removed 'gap' as space-between handles spacing */
+}
+
+.button-row button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Styles for Register/Upload button */
+.button-row button[type="submit"] { /* This will apply to "Upload & Complete" on documents.html too */
+    background-color: #007bff;
+    color: white;
+}
+
+.button-row button[type="submit"]:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Styles for Next/Back button */
+#nextBtn, /* Keep for index.html */
+#backBtn { /* Apply to back button on documents.html */
+    background-color: #28a745;
+    color: white;
+}
+
+#nextBtn:hover,
+#backBtn:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Styles for the response message */
+.response {
+    text-align: center;
+    margin-top: 25px;
+    font-weight: bold;
+    font-size: 1.05em;
+    padding: 10px;
+    border-radius: 5px;
+}

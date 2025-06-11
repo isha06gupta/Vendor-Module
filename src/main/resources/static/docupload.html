@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vendor Document Upload</title>
+  <link rel="stylesheet" href="docupload.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <img src="logo.jpeg" alt="CEIL Company Logo" class="ceil-logo" />
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="#">ABOUT CEIL</a></li>
+        <li><a href="#">BUSINESS SECTORS</a></li>
+        <li><a href="#">SERVICES</a></li>
+        <li><a href="#">SUSTAINABILITY</a></li>
+        <li><a href="#">FINANCIAL</a></li>
+        <li><a href="#">CAREERS</a></li>
+        <li><a href="#">CONTACT US</a></li>
+        <li><a href="#">NEWS & EVENTS</a></li>
+      </ul>
+    </nav>
+    
+  </header>
+
+  <div class="content-wrapper">
+    <div class="form-section">
+      <div class="registration-form-container">
+        <h1>Upload Supporting Documents</h1>
+        <p>Please upload the required documents in PDF or JPEG format. Max file size: 5MB per document.</p>
+
+        <form id="documentUploadForm">
+          <div class="form-group">
+            <label for="incorporationCertUpload">1. Business and Legal Proof <span style="color: red;">*</span></label>
+            <input type="file" id="incorporationCertUpload" name="incorporationCertUpload" accept=".pdf,.jpeg,.jpg,.png" required />
+            <small>Accepted formats: PDF, JPEG, JPG, PNG.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="panUpload">2. Company PAN Card <span style="color: red;">*</span></label>
+            <input type="file" id="panUpload" name="panUpload" accept=".pdf,.jpeg,.jpg,.png" required />
+            <small>Accepted formats: PDF, JPEG, JPG, PNG.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="gstUpload">3. GST Registration Certification <span style="color: red;">*</span></label>
+            <input type="file" id="gstUpload" name="gstUpload" accept=".pdf,.jpeg,.jpg,.png" required />
+            <small>Accepted formats: PDF, JPEG, JPG, PNG.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="bankUpload">4. Bank Passbook Copy <span style="color: red;">*</span></label>
+            <input type="file" id="bankUpload" name="bankUpload" accept=".pdf,.jpeg,.jpg,.png" required />
+            <small>Accepted formats: PDF, JPEG, JPG, PNG.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="certUpload">5. Certification Of Incorporation/Partnership Deed <span style="color: red;">*</span></label>
+            <input type="file" id="certUpload" name="certUpload" accept=".pdf,.jpeg,.jpg,.png" required />
+            <small>Accepted formats: PDF, JPEG, JPG, PNG.</small>
+          </div>
+
+          <div class="button-row">
+            <button type="button" id="backBtn" >Back</button>
+            <button type="submit">Upload & Complete</button>
+          </div>
+        </form>
+
+        <div class="response" id="uploadResponse"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('backBtn').addEventListener('click', function () {
+      window.location.href = 'details.html';
+    });
+
+    document.getElementById('documentUploadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const uploadResponseDiv = document.getElementById('uploadResponse');
+      const requiredInputs = form.querySelectorAll('input[type="file"][required]');
+      let allRequiredFilesUploaded = true;
+
+      requiredInputs.forEach(input => {
+        if (input.files.length === 0 || input.files[0].size === 0) {
+          allRequiredFilesUploaded = false;
+          input.style.borderColor = 'red';
+        } else {
+          input.style.borderColor = '';
+        }
+      });
+
+      if (!allRequiredFilesUploaded) {
+        uploadResponseDiv.textContent = 'Please upload all mandatory documents.';
+        uploadResponseDiv.style.color = 'red';
+        return;
+      }
+
+      const formData = new FormData(form);
+      const vendorId = localStorage.getItem('currentVendorId');
+
+      if (!vendorId) {
+        uploadResponseDiv.textContent = 'Error: No vendor ID found. Please complete registration first.';
+        uploadResponseDiv.style.color = 'red';
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8080/api/vendors/upload-documents/${vendorId}`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const responseData = await response.text();
+
+        if (!response.ok) {
+          throw new Error(responseData || 'Document upload failed.');
+        }
+
+        uploadResponseDiv.textContent = '✅ Documents uploaded successfully! Your registration is now complete.';
+        uploadResponseDiv.style.color = 'green';
+        form.reset();
+      } catch (error) {
+        uploadResponseDiv.textContent = 'Error during upload: ' + error.message;
+        uploadResponseDiv.style.color = 'red';
+        console.error('Document upload error:', error);
+      }
+    });
+  </script>
+</body>
+</html>

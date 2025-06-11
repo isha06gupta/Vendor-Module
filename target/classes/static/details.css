@@ -1,0 +1,199 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0; /* REMOVE margin-left: 700px; - This pushes everything too far right */
+    padding: 0; /* Ensure no default padding pushes content */
+    background-color: #f4f4f9; /* Use the background color you specified */
+}
+
+/* Header (Logo and Nav) - Positioned at Top-Left */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligns content to the left */
+    background-color: rgba(33, 174, 240, 0.85);
+    padding: 5px 25px; /* Adjust padding around logo/nav */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensures it spans full width */
+    position: sticky; /* Optional: Makes header stick to top on scroll */
+    top: 0;
+    z-index: 1000; /* Ensures header is above other content */
+}
+
+.logo-container {
+    flex-shrink: 0; /* Prevents logo from shrinking */
+    margin-right: 20px; /* Space between logo and first menu item */
+}
+
+.ceil-logo {
+    height: 70px; /* Adjust logo height as needed */
+    width: auto; /* Maintain aspect ratio */
+    display: block; /* Removes extra space below image */
+}
+
+/* Main Navigation */
+.main-nav ul {
+    list-style: none; /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Makes list items horizontal */
+}
+
+.main-nav ul li {
+    position: relative; /* For dropdown arrow positioning */
+    margin-right: 20px; /* Space between menu items */
+}
+
+.main-nav ul li:last-child {
+    margin-right: 0; /* No margin for the last item */
+}
+
+.main-nav ul li a {
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Default text color */
+    font-weight: bold;
+    padding: 8px 0;
+    display: block; /* Make the whole area clickable */
+    font-size: 0.9em; /* Adjust font size */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.main-nav ul li a.active, /* Style for the active/current page link */
+.main-nav ul li a:hover {
+    color: #007bff; /* Blue for active/hover */
+}
+
+/* Dropdown Arrow Styling (optional, if you want the down arrow icon) */
+.dropdown-arrow {
+    display: inline-block;
+    margin-left: 5px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #333; /* Color of the arrow */
+    vertical-align: middle;
+}
+
+.main-nav ul li a:hover .dropdown-arrow {
+    border-top-color: #007bff; /* Arrow color on hover */
+}
+.content-wrapper {
+    flex-grow: 1; /* Allows this wrapper to take all available vertical space */
+    display: flex;
+    justify-content: center; /* Horizontally center the form section */
+    align-items: flex-start; /* Align form to the top of the available space */
+    padding: 40px 20px; /* Top/bottom padding for the content area */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+/* Form Section Styling (Vendor Registration) */
+.form-section {
+    width: 100%;
+    max-width: 700px;
+}
+
+.form-section h1 { /* Targeting the H1 inside the form-section */
+    color: #333;
+    margin-bottom: 25px; /* Increased margin below heading */
+    font-size: 2.5em; /* Larger heading size */
+    text-align: center; /* Centered heading as per first screenshot */
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.registration-form-container {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding-top: 40px;
+}
+
+.form-group {
+    margin-bottom: 20px; /* Increased space between each label/input group */
+}
+
+.form-group label { /* Specific to labels within form-group */
+    display: block; /* Make label appear above input */
+    margin-bottom: 8px; /* Space between label and input */
+    font-weight: bold;
+    color: #444; /* Darker label color */
+    font-size: 1.05em; /* Slightly larger label font */
+}
+
+/* Input and Textarea Styling */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"], /* Corrected from 'file' to 'tel' for phone input */
+.form-group textarea {
+    width: 100%; /* Full width of its parent (.registration-form-container) */
+    padding: 12px 15px; /* More padding for a taller input field */
+    border: 1px solid #ddd; /* Lighter border color */
+    border-radius: 6px; /* Slightly more rounded corners */
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+    font-size: 1.0em;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2); /* Subtle blue shadow on focus */
+}
+
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing for textarea */
+    min-height: 60px; /* Minimum height for text area */
+}
+
+/* Button Row Styling */
+.button-row {
+    display: flex;
+    justify-content: space-between; /* Align buttons to the right */
+    margin-top: 30px; /* More space above the buttons */
+    gap: 15px; /* Space between buttons */
+}
+
+.button-row button {
+    padding: 12px 25px; /* More padding for larger buttons */
+    border: none;
+    border-radius: 6px; /* Rounded corners for buttons */
+    cursor: pointer;
+    font-size: 1.1em; /* Larger font size for buttons */
+    font-weight: bold; /* Make button text bold */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.button-row button[type="submit"] {
+    background-color: #007bff; /* Blue button background */
+    color: white;
+}
+
+.button-row button[type="submit"]:hover {
+    background-color: #0056b3; 
+    transform: translateY(-1px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#nextBtn {
+    background-color: #28a745; 
+    color: white;
+}
+
+#nextBtn:hover {
+    background-color: #218838; 
+    transform: translateY(-1px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Styles for the response message */
+.response {
+    text-align: center; /* Center the response message */
+    margin-top: 25px; /* More space above response */
+    font-weight: bold;
+    font-size: 1.05em;
+    padding: 10px; /* Add some padding around the message */
+    border-radius: 5px;
+}

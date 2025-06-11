@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendor Module</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Fonts and Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Google reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+
+<header>
+  <a href="#"><img src="logo.jpeg" class="logo" alt="Logo" /></a>
+  <nav>
+    <div class="nav-item"><a href="index.html">Home</a></div>
+    <div class="nav-item">
+      <a href="#">About CEIL</a>
+      <div class="dropdown">
+        <a href="#">Company Profile</a>
+        <a href="#">Vision and Mission</a>
+        <a href="#">Our Leaders</a>
+        <a href="#">Parent Company EIL</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#">Business Sectors</a>
+      <div class="dropdown">
+        <a href="#">Sectors</a>
+        <a href="#">Inspection Expertise</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#">Services</a>
+      <div class="dropdown large-dropdown">
+        <a href="#">Our Services</a>
+        <a href="#">Certification</a>
+        <a href="#">Re-Certification</a>
+        <a href="#">Third Party Inspection</a>
+        <a href="#">Expediting Services</a>
+        <a href="#">Vendor Assessment</a>
+        <a href="#">Quality Audit</a>
+        <a href="#">HSE Audit</a>
+        <a href="#">Construction Supervision</a>
+        <a href="#">Project Services</a>
+        <a href="#">Pre-Commissioning / Commissioning</a>
+        <a href="#">IBR/PESO Services</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#">Sustainability</a>
+      <div class="dropdown">
+        <a href="#">Integrity Pact</a>
+        <a href="#">Impartiality</a>
+        <a href="#">HSE Policy</a>
+        <a href="#">WhistleBlower Policy</a>
+        <a href="#">Right to Information</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#">Financial</a>
+      <div class="dropdown">
+        <a href="#">Financial Results</a>
+        <a href="#">Corporate Governance</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="menu-icon" id="menuIcon">
+    <i class="fas fa-bars"></i>
+    <div class="menu-dropdown" id="menuDropdown">
+      <a href="#" id="loginLink">Login</a>
+      <a href="#" id="profileLink" style="display: none;">Profile</a>
+      <a href="#" id="logoutLink" style="display: none;">Logout</a>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="slideshow-container">
+    <div id="slideshow"></div>
+    <button class="arrow left-arrow" onclick="changeImage(-1)">&#10094;</button>
+    <button class="arrow right-arrow" onclick="changeImage(1)">&#10095;</button>
+  </div>
+</section>
+
+<!-- Auth Modal -->
+<div class="auth-modal">
+  <div class="form-box login">
+    <h2>Vendor Login</h2>
+    <form id="loginForm">
+      <div class="input-box"><input type="email" name="email" placeholder="Email" required /></div>
+      <div class="input-box"><input type="password" name="password" placeholder="Password" required /></div>
+      <div class="g-recaptcha" data-sitekey="6Ld7MVUrAAAAAONqdcmdvndaaFFiOVLMwH0cka1x"></div>
+      <button type="submit" class="btn">Login</button>
+      <p><i>Don't have an account?</i> <a href="#" class="register-link">Register</a></p>
+      <p><i>CEIL Employee?</i> <a href="#" class="Employee-register">Login</a></p>
+    </form>
+  </div>
+
+  <div class="form-box register">
+    <h2>Vendor Registration</h2>
+    <form id="registerForm" method="POST">
+      <div class="input-box"><input type="text" name="name" placeholder="Personal Name" required /></div>
+      <div class="input-box"><input type="email" name="email" / placeholder="Offical Email" required /></div>
+      <div class="input-box"><input type="password" name="password" placeholder="Password" required /></div>
+      <div class="g-recaptcha" data-sitekey="6Ld7MVUrAAAAAONqdcmdvndaaFFiOVLMwH0cka1x"></div>
+      <button type="submit" class="btn">Register</button>
+      <p><i>Already have an account?</i> <a href="#" class="login-link">Login</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- OTP Modal -->
+<div id="otpModal" style="display: none;">
+  <div class="otp-box-container">
+    <h3>Enter OTP</h3>
+    <div id="otpInputs">
+      <input type="text" maxlength="1" class="otp-box" />
+      <input type="text" maxlength="1" class="otp-box" />
+      <input type="text" maxlength="1" class="otp-box" />
+      <input type="text" maxlength="1" class="otp-box" />
+      <input type="text" maxlength="1" class="otp-box" />
+      <input type="text" maxlength="1" class="otp-box" />
+    </div>
+    <button onclick="submitOtp()">Submit OTP</button>
+  </div>
+</div>
+
+<!-- External JS -->
+<script src="script.js"></script>
+</body>
+</html>
