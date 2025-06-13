@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document Upload</title>
+  <link rel="stylesheet" href="verified.css" />
+</head>
+<body>
+
+  <!-- Top Header  -->
+  <header class="header">
+    <div class="header-left">
+      <img src="logo.jpeg" alt="Logo" />
+      <div>
+        <h1>CEIL</h1>
+        <h2>CERTIFICATION ENGINEERS INTERNATIONAL LIMITED </h2>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-user-row">
+        <label for="projectSelect" class="project-select-label">Project Number:</label>
+        <select id="projectSelect" class="project-select">
+          <option value="Order-101">Order-101</option>
+          <option value="Order-102">Order-102</option>
+          <option value="Order-103">Order-103</option>
+        </select>
+        <button class="logout">🔴 Logout</button>
+      </div>
+      <p id="welcomeUser">Welcome : User</p>
+    </div>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav class="navbar">
+    <a id="dashboardNav" href="#">Profile</a>
+    <a id="companyProfileNav" href="#">Company Profile</a>
+    <a id="projectInfoNav" href="#">Project Information</a>
+    <a id="docUploadNav" class="active" href="#">Document Upload</a>
+    <a id="submissionHistoryNav" href="#">Submission History</a>
+    <a id="queriesResponsesNav" href="#">Queries & Responses</a>
+
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Dashboard Section -->
+    <section id="dashboardDetails" class="details-section" style="display: none;">
+      <h2>Company/Personal Details</h2>
+      <div class="details-grid" id="dashboardGrid">
+        <!-- Content will be set by JS -->
+      </div>
+    </section>
+
+    <!-- Company Profile Section -->
+    <section id="companyProfileSection" class="details-section" style="display: none;">
+      <h2>Company Profile</h2>
+      <div class="details-grid" id="companyProfileGrid">
+        <!-- Content will be set by JS -->
+      </div>
+    </section>
+
+    <!-- Project Information Section -->
+    <section id="projectInfoSection" class="details-section" style="display: none;">
+      <h2>Project Information</h2>
+      <div class="details-grid" id="projectInfoGrid">
+        <!-- Content will be set by JS -->
+      </div>
+    </section>
+
+    <!-- Submission History Section -->
+    <section id="submissionHistorySection" class="details-section" style="display: none;">
+      <h2>Submission History</h2>
+      <div style="overflow-x:auto;">
+        <table class="submission-table" id="submissionHistoryTable">
+          <thead>
+            <tr>
+              <th>S. No.</th>
+              <th>Type</th>
+              <th>File Name</th>
+              <th>Download/View</th>
+              <th>Submitted By</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Will be populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Queries & Responses Section -->
+    <section id="queriesResponsesSection" class="details-section" style="display: none;">
+      <h2>Queries & Responses</h2>
+      <div style="overflow-x:auto;">
+        <table class="submission-table" id="queriesResponsesTable">
+          <thead>
+            <tr>
+              <th>S. No.</th>
+              <th>Date</th>
+              <th>Raised By (Name & Role)</th>
+              <th>Query Title / Summary</th>
+              <th>Detailed Description</th>
+              <th>Assigned To</th>
+              <th>Status</th>
+              <th>Response</th>
+              <th>Response Date</th>
+              <th>Remarks / Notes</th>
+              <th>Attachment(s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Will be populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Document Submission Form -->
+    <section id="docUploadSection" class="form-container">
+      <h2>Document Submission Form</h2>
+      <form id="documentForm">
+        <div class="form-row">
+          <label for="jobNumber">1. Job Number:</label>
+          <select id="jobNumber" required>
+            <option value="">Select Job Number</option>
+            <option value="Order-101">Order-101</option>
+            <option value="Order-102">Order-102</option>
+            <option value="Order-103">Order-103</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="docCategory">2. Document Category:</label>
+          <input type="text" id="docCategory" required />
+        </div>
+        <div class="form-row">
+          <label for="docNumber">3. Document Number:</label>
+          <input type="text" id="docNumber" required />
+        </div>
+        <div class="form-row">
+          <label for="docTitle">4. Document Title:</label>
+          <input type="text" id="docTitle" required />
+        </div>
+        <div class="form-row">
+          <label for="revision">5. Revision Number:</label>
+          <input type="text" id="revision" required />
+        </div>
+        <div class="form-row">
+          <label for="fileUpload">6. File Upload:</label>
+          <input type="file" id="fileUpload" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx" required />
+        </div>
+        <div class="form-row full-width">
+          <button type="submit">Upload</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>Copyright © 2025</p>
+  </footer>
+
+  <script src="verified.js"></script>
+</body>
+</html>

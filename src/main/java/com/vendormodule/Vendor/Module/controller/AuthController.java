@@ -2,9 +2,12 @@ package com.vendormodule.Vendor.Module.controller;
 
 import com.vendormodule.Vendor.Module.dto.CaptchaResponse;
 import com.vendormodule.Vendor.Module.entity.User;
+import com.vendormodule.Vendor.Module.entity.UserDTO;
 import com.vendormodule.Vendor.Module.repository.UserRepository;
 import com.vendormodule.Vendor.Module.service.EmailService;
 import com.vendormodule.Vendor.Module.service.OtpService;
+
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,41 +46,46 @@ public class AuthController {
     public ResponseEntity<?> test() {
         return ResponseEntity.ok(Map.of("message", "Auth controller is working", "timestamp", System.currentTimeMillis()));
     }
-
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestParam("g-recaptcha-response") String captcha,
-                                      @RequestParam("name") String name,
-                                      @RequestParam("email") String email,
-                                      @RequestParam("password") String password) {
+public ResponseEntity<?> register(@RequestParam("g-recaptcha-response") String captcha,
+                                  @RequestParam("name") String name,
+                                  @RequestParam("email") String email,
+                                  @RequestParam("password") String password) {
 
-        System.out.println("=== REGISTER REQUEST RECEIVED ===");
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Captcha: " + (captcha != null ? "Present" : "Missing"));
+    System.out.println("=== REGISTER REQUEST RECEIVED ===");
+    System.out.println("Name: " + name);
+    System.out.println("Email: " + email);
+    System.out.println("Captcha: " + (captcha != null ? "Present" : "Missing"));
 
-        try {
-            if (!verifyCaptcha(captcha)) {
-                return ResponseEntity.badRequest().body(Map.of("error", "reCAPTCHA verification failed"));
-            }
-
-            if (userRepository.findByEmail(email).isPresent()) {
-                return ResponseEntity.badRequest().body(Map.of("error", "User with this email already exists"));
-            }
-
-            String hashedPassword = passwordEncoder.encode(password);
-            User pendingUser = new User(name, email, hashedPassword);
-            pendingUsers.put(email, pendingUser);
-            String otp = otpService.generateOtp(email);
-            emailService.sendOtpEmail(email, otp);
-
-            return ResponseEntity.ok(Map.of("message", "OTP sent to your email"));
-        } catch (Exception e) {
-            System.err.println("Registration error: " + e.getMessage());
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Registration failed: " + e.getMessage()));
+    try {
+        if (!verifyCaptcha(captcha)) {
+            return ResponseEntity.badRequest().body(Map.of("error", "reCAPTCHA verification failed"));
         }
+
+        if (userRepository.findByEmail(email).isPresent()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "User with this email already exists"));
+        }
+
+        if (!isValidPassword(password)) {
+            return ResponseEntity.badRequest().body(Map.of("error",
+                    "Password must be at least 8 characters long and contain at least one uppercase, one lowercase, one digit, and one special character."));
+        }
+
+        String hashedPassword = passwordEncoder.encode(password);
+        User pendingUser = new User(name, email, hashedPassword);
+        pendingUsers.put(email, pendingUser);
+        String otp = otpService.generateOtp(email);
+        emailService.sendOtpEmail(email, otp);
+
+        return ResponseEntity.ok(Map.of("message", "OTP sent to your email"));
+
+    } catch (Exception e) {
+        System.err.println("Registration error: " + e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", "Registration failed: " + e.getMessage()));
     }
+}
 
     private boolean verifyCaptcha(String captcha) {
         String verifyUrl = "https://www.google.com/recaptcha/api/siteverify";
@@ -179,4 +187,10 @@ public class AuthController {
                     .body(Map.of("error", "Login failed: " + e.getMessage()));
         }
     }
+    private boolean isValidPassword(String password) {
+    // At least 8 chars, 1 lowercase, 1 uppercase, 1 number, 1 special char
+    String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?#&])[A-Za-z\\d@$!%*?#&]{8,}$";
+    return password != null && password.matches(pattern);
+}
+
 }

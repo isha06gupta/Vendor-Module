@@ -12,7 +12,7 @@ header {
   left: 0;
   width: 100%;
   padding: 3px 25px;
-  background: rgb(33, 174, 240,0.85);
+  background: rgba(4, 81, 117, 0.865);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,7 +49,7 @@ nav {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: rgba(33, 174, 240, 0.712);
+  background-color: rgba(4, 81, 117, 0.865);
   padding: 10px 0;
   border-radius: 4px;
   box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
@@ -86,13 +86,15 @@ nav {
   display: block;
   padding: 10px;
   text-decoration: none;
-  color:rgba(33, 174, 240, 0.934);
+  color:rgba(241, 245, 247, 0.865);
   font-size: 18px;
   font-weight: 520;
 }
-
+.menu-dropdown  a{
+  background-color:  rgba(4, 81, 117, 0.865);
+}
 .menu-dropdown a:hover {
-  background-color: rgba(33, 174, 240, 0.934);
+  background-color: rgba(4, 81, 117, 0.865);
 }
 
 .show {
