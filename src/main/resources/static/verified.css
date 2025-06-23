@@ -111,7 +111,7 @@ main {
   flex: 1;
 }
 .details-section {
-  width: 210vh;
+  width: 200vh;
   background: #ffffff;
   margin: 30px auto;
   padding: 20px;
@@ -138,7 +138,7 @@ main {
 }
 .details-row {
   margin: 20px 0;
-  font-size: 20px;
+  font-size: 22px;
 }
 .form-container {
   width: 190vh;
@@ -162,6 +162,10 @@ form {
   gap: 30px 50px;
 }
 .form-row {
+  display: flex;
+  flex-direction: column;
+}
+.form-row, #productOrderRow {
   display: flex;
   flex-direction: column;
 }

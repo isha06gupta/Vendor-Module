@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("currentVendorName", result.name);
         }
         alert("✅ Login successful!");
-        window.location.href = "details.html";
+        window.location.href = "DetailPersonal.html";
       } else {
         throw new Error(result.error || "Login failed");
       }

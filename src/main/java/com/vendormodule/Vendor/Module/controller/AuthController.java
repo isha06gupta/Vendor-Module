@@ -21,8 +21,8 @@ import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/auth")
+@RestController //REST endpoint
+@RequestMapping("/auth")  //REST endpoint 
 public class AuthController {
 
     private final String secret = "6Ld7MVUrAAAAAIXtjzS5LJY7ko5nUCYCJC8omnAP";

@@ -385,3 +385,39 @@ queriesResponsesNav.addEventListener('click', function (e) {
   hideAllSections();
   queriesResponsesSection.style.display = "block";
 });
+// Mapping from job number to Product Orders (sample data)
+const jobProductOrders = {
+  "Order-101": ["PO-101-A", "PO-101-B", "PO-101-C"],
+  "Order-102": ["PO-102-X", "PO-102-Y"],
+  "Order-103": ["PO-103-K"]
+};
+
+const jobNumberSelect = document.getElementById("jobNumber");
+const productOrderRow = document.getElementById("productOrderRow");
+const productOrderSelect = document.getElementById("productOrder");
+const restOfDocFields = document.getElementById("restOfDocFields");
+
+jobNumberSelect.addEventListener("change", function() {
+  productOrderSelect.innerHTML = '<option value="">Select Product Order</option>';
+  restOfDocFields.style.display = "none";
+  if (this.value && jobProductOrders[this.value]) {
+    // Populate Product Order dropdown
+    jobProductOrders[this.value].forEach(po => {
+      const opt = document.createElement("option");
+      opt.value = po;
+      opt.textContent = po;
+      productOrderSelect.appendChild(opt);
+    });
+    productOrderRow.style.display = "flex";
+  } else {
+    productOrderRow.style.display = "none";
+  }
+});
+
+productOrderSelect.addEventListener("change", function() {
+  if (this.value) {
+    restOfDocFields.style.display = "block";
+  } else {
+    restOfDocFields.style.display = "none";
+  }
+});

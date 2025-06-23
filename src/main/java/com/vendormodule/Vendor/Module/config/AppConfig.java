@@ -1,25 +1,26 @@
-package com.vendormodule.Vendor.Module.config;
+package com.vendormodule.Vendor.Module.config;  //Path at which this file  is saved 
 
+// configuration related classes
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;  //used to encrypt password
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
-public class AppConfig implements WebMvcConfigurer {
+@Configuration //tells that this class hs configurations
+public class AppConfig implements WebMvcConfigurer { //customize the spring MVC like overriding 
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); //hash user password before storing in db
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Serve static resources from classpath
+        // Serve static resources from classpath  serve all the resources 
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/", "classpath:/public/")
-                .setCachePeriod(3600);
+                .setCachePeriod(3600);  //catches file for 3600 sec in browser
 
         // Serve CSS files
         registry.addResourceHandler("/*.css")
@@ -35,5 +36,5 @@ public class AppConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/*.jpg", "/*.jpeg", "/*.png", "/*.gif")
                 .addResourceLocations("classpath:/static/", "classpath:/public/")
                 .setCachePeriod(3600);
-    }}
-    
+    }
+}

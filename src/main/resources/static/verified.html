@@ -46,7 +46,7 @@
   <main>
     <!-- Dashboard Section -->
     <section id="dashboardDetails" class="details-section" style="display: none;">
-      <h2>Company/Personal Details</h2>
+      <h2>Personal Details</h2>
       <div class="details-grid" id="dashboardGrid">
         <!-- Content will be set by JS -->
       </div>
@@ -67,6 +67,60 @@
         <!-- Content will be set by JS -->
       </div>
     </section>
+
+    <section id="docUploadSection" class="form-container">
+        <h2>Document Submission Form</h2>
+        <form id="documentForm">
+            <div class="form-row">
+                <label for="jobNumber">1. Job Number:</label>
+                <select id="jobNumber" required>
+                <option value="">Select Job Number</option>
+                <option value="Order-101">Order-101</option>
+                <option value="Order-102">Order-102</option>
+                <option value="Order-103">Order-103</option>
+            </select>
+            </div>
+        <div class="form-row" id="productOrderRow" style="display:none;">
+            <label for="productOrder">2. Product Order:</label>
+            <select id="productOrder">
+            <option value="">Select Product Order</option>
+            <!-- Will be filled by JS; can be static if you want -->
+        </select>
+    </div>
+    <div id="restOfDocFields" style="display:none;">
+      <div class="form-row">
+        <label for="docCategory">3. Document Category:</label>
+        <select id="docCategory" required>
+          <option value="">Select Category</option>
+          <option value="Technical">Technical</option>
+          <option value="Financial">Financial</option>
+          <option value="Quality">Quality</option>
+          <option value="Safety">Safety</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="docNumber">4. Document Number:</label>
+        <input type="text" id="docNumber" required />
+      </div>
+      <div class="form-row">
+        <label for="docTitle">5. Document Title:</label>
+        <input type="text" id="docTitle" required />
+      </div>
+      <div class="form-row">
+        <label for="revision">6. Revision Number:</label>
+        <input type="text" id="revision" required />
+      </div>
+      <div class="form-row">
+        <label for="fileUpload">7. File Upload:</label>
+        <input type="file" id="fileUpload" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx" required />
+      </div>
+      <div class="form-row full-width">
+        <button type="submit">Upload</button>
+      </div>
+    </div>
+  </form>
+</section>
 
     <!-- Submission History Section -->
     <section id="submissionHistorySection" class="details-section" style="display: none;">
@@ -119,44 +173,6 @@
       </div>
     </section>
 
-    <!-- Document Submission Form -->
-    <section id="docUploadSection" class="form-container">
-      <h2>Document Submission Form</h2>
-      <form id="documentForm">
-        <div class="form-row">
-          <label for="jobNumber">1. Job Number:</label>
-          <select id="jobNumber" required>
-            <option value="">Select Job Number</option>
-            <option value="Order-101">Order-101</option>
-            <option value="Order-102">Order-102</option>
-            <option value="Order-103">Order-103</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="docCategory">2. Document Category:</label>
-          <input type="text" id="docCategory" required />
-        </div>
-        <div class="form-row">
-          <label for="docNumber">3. Document Number:</label>
-          <input type="text" id="docNumber" required />
-        </div>
-        <div class="form-row">
-          <label for="docTitle">4. Document Title:</label>
-          <input type="text" id="docTitle" required />
-        </div>
-        <div class="form-row">
-          <label for="revision">5. Revision Number:</label>
-          <input type="text" id="revision" required />
-        </div>
-        <div class="form-row">
-          <label for="fileUpload">6. File Upload:</label>
-          <input type="file" id="fileUpload" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx" required />
-        </div>
-        <div class="form-row full-width">
-          <button type="submit">Upload</button>
-        </div>
-      </form>
-    </section>
   </main>
 
   <!-- Footer -->
