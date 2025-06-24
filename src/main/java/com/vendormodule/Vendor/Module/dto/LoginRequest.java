@@ -1,4 +1,4 @@
-package com.ceil.vendor.vendorportal.dto;
+package com.vendormodule.Vendor.Module.dto;
 
 import lombok.Data; // If you're using Lombok
 import lombok.NoArgsConstructor; // If you're using Lombok

@@ -1,9 +1,9 @@
-package com.ceil.vendor.vendorportal.repository;
-
-import com.ceil.vendor.vendorportal.model.employee;
+package com.vendormodule.Vendor.Module.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.vendormodule.Vendor.Module.model.employee;
 
 @Repository // Marks this interface as a Spring Data JPA repository
 public interface EmployeeRepository extends JpaRepository<employee, Long> {

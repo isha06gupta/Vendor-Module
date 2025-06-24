@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEIL Employee Login</title>
+    <link rel="stylesheet" href="EmpLogin.css">
+    </head>
+<body>
+
+    <header class="login-header">
+        <div class="login-header-left">
+            <img src="logo.jpeg" alt="CEIL Logo" class="login-header-logo-left">
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>CEIL Employee Login</h2>
+        <form id="employeeLoginForm">
+            <div class="form-group">
+                <label for="email">Official email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('employeeLoginForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            // REMOVED: const recaptchaResponse = grecaptcha.getResponse();
+
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = ''; // Clear previous messages
+
+            // REMOVED: CAPTCHA validation
+            // if (!recaptchaResponse) {
+            //     messageDiv.textContent = 'Please complete the CAPTCHA.';
+            //     messageDiv.style.color = 'red';
+            //     return;
+            // }
+
+            try {
+                // REMOVED: recaptchaResponse from requestBody
+                const requestBody = { email, password };
+
+                const response = await fetch('/api/employee/login', { // Backend login endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    messageDiv.textContent = result.message || 'Login successful!';
+                    messageDiv.style.color = 'green';
+                    // Redirect to an employee dashboard page after successful login
+                    window.location.href = '/employee/dashboard.html'; // You'll create this later
+                } else {
+                    // REMOVED: ' or CAPTCHA.' from message, and grecaptcha.reset()
+                    messageDiv.textContent = result.message || 'Login failed. Invalid credentials.';
+                    messageDiv.style.color = 'red';
+                    // REMOVED: grecaptcha.reset();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                messageDiv.textContent = 'An error occurred during login. Please try again later.';
+                messageDiv.style.color = 'red';
+                // REMOVED: grecaptcha.reset();
+            }
+        });
+    </script>
+</body>
+</html>

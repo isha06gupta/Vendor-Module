@@ -1,74 +1,75 @@
-package com.ceil.vendor.vendorportal.model;
+package com.vendormodule.Vendor.Module.model;
 
-import jakarta.persistence.*; 
-import lombok.AllArgsConstructor; 
-import lombok.Data;             
-import lombok.NoArgsConstructor;  
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
-@Entity 
-@Table(name = "vendors") 
-@Data 
-@NoArgsConstructor 
-@AllArgsConstructor 
-public class vendor {
+@Entity
+@Table(name = "vendors")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Vendor {
 
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Long id; 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false) 
+    @Column(nullable = false)
     private String vendorName;
 
-    @Column(nullable = false, length = 500) 
+    @Column(nullable = false, length = 500)
     private String address;
 
-    private String contactPerson; 
+    private String contactPerson;
 
-    @Column(nullable = false, unique = true) 
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(length = 20) 
+    @Column(length = 20)
     private String mobileNumber;
 
-    @Column(length = 255) 
+    @Column(length = 255)
     private String website;
 
-    @Column(nullable = false, unique = true, length = 15) 
+    @Column(nullable = false, unique = true, length = 15)
     private String gstin;
 
-    @Column(length = 10) 
+    @Column(length = 10)
     private String panNumber;
 
-    @Column(length = 20) 
+    @Column(length = 20)
     private String landlinePhone;
 
-    @Column(length = 20) 
+    @Column(length = 20)
     private String faxNumber;
 
-    @Column(length = 50) 
+    @Column(length = 50)
     private String businessType;
 
-    @Column(length = 50) 
+    @Column(length = 50)
     private String organizationType;
 
-    private Integer establishmentYear; 
+    private Integer establishmentYear;
 
-    @Column(length = 100) 
+    @Column(length = 100)
     private String vendorCategory;
 
-    @Column(length = 500) 
+    @Column(length = 500)
     private String keyOfferings;
 
-    private Boolean isMsme; 
+    private Boolean isMsme;
 
-    @Column(length = 30) 
+    @Column(length = 30)
     private String udyamRegNo;
 
-    @Column(length = 200) 
+    @Column(length = 200)
     private String howDidYouHearAboutUs;
 
-    @Column(length = 500) 
+    @Column(length = 500)
     private String standardItems;
 
     private Boolean incorporationCertUploaded = false;
@@ -78,15 +79,15 @@ public class vendor {
     private Boolean certIncorporationPartnershipUploaded = false;
 
     private String incorporationCertPath;
-    private String panCardPath; 
+    private String panCardPath;
     private String gstCertPath;
     private String bankProofPath;
     private String certIncorporationPartnershipPath;
 
-    private LocalDateTime registrationDate; 
+    private LocalDateTime registrationDate;
 
-    @Column(nullable = false, length = 50) 
-    private String status = "PENDING_DOCUMENTS"; 
+    @Column(nullable = false, length = 50)
+    private String status = "PENDING_DOCUMENTS";
 
     @PrePersist
     protected void onCreate() {

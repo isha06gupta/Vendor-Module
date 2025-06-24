@@ -1,7 +1,7 @@
-package com.ceil.vendor.vendorportal.controller;
+package com.vendormodule.Vendor.Module.controller;
 
-import com.ceil.vendor.vendorportal.model.vendor;
-import com.ceil.vendor.vendorportal.service.VendorService;
+import com.vendormodule.Vendor.Module.model.Vendor;
+import com.vendormodule.Vendor.Module.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap; 
-import java.util.Map; 
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/vendors")
-@CrossOrigin(origins = "http://localhost:8080") 
+@CrossOrigin(origins = "http://localhost:9090") // Adjust as per your frontend port
 public class VendorController {
 
     private final VendorService vendorService;
@@ -24,51 +24,43 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
+    // Vendor Registration
     @PostMapping("/register")
-    public ResponseEntity<vendor> registerVendor(@RequestBody vendor vendor) {
+    public ResponseEntity<Vendor> registerVendor(@RequestBody Vendor vendor) {
         try {
-            vendor registeredVendor = vendorService.registerVendor(vendor);
+            Vendor registeredVendor = vendorService.registerVendor(vendor);
             return new ResponseEntity<>(registeredVendor, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
+    // Get Vendor by ID
     @GetMapping("/{id}")
-    public ResponseEntity<vendor> getVendorById(@PathVariable Long id) {
+    public ResponseEntity<Vendor> getVendorById(@PathVariable Long id) {
         return vendorService.getVendorById(id)
                 .map(vendor -> new ResponseEntity<>(vendor, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    // Update Vendor
     @PutMapping("/{id}")
-    public ResponseEntity<vendor> updateVendor(@PathVariable Long id, @RequestBody vendor vendor) {
+    public ResponseEntity<Vendor> updateVendor(@PathVariable Long id, @RequestBody Vendor vendor) {
         if (!id.equals(vendor.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         try {
-            vendor updatedVendor = vendorService.updateVendor(vendor);
+            Vendor updatedVendor = vendorService.updateVendor(vendor);
             return new ResponseEntity<>(updatedVendor, HttpStatus.OK);
         } catch (RuntimeException e) {
             if (e.getMessage().contains("not found")) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
-    /**
-     * Endpoint to upload all required documents for a vendor.
-     * The files are sent as MultipartFile objects within the request.
-     *
-     * @param vendorId The ID of the vendor to upload documents for.
-     * @param incorporationCertUpload Business and Legal Proof file.
-     * @param panUpload Company PAN Card file.
-     * @param gstUpload GST Registration Certification file.
-     * @param bankUpload Bank Passbook Copy file.
-     * @param certUpload Certification Of Incorporation/Partnership Deed file.
-     * @return ResponseEntity indicating success or failure.
-     */
+    // Upload documents
     @PostMapping(value = "/upload-documents/{vendorId}", consumes = {"multipart/form-data"})
     public ResponseEntity<String> uploadAllVendorDocuments(
             @PathVariable Long vendorId,
@@ -76,10 +68,11 @@ public class VendorController {
             @RequestParam("panUpload") MultipartFile panUpload,
             @RequestParam("gstUpload") MultipartFile gstUpload,
             @RequestParam("bankUpload") MultipartFile bankUpload,
-            @RequestParam("certUpload") MultipartFile certUpload) { // Matches name="certUpload" in HTML
+            @RequestParam("certUpload") MultipartFile certUpload) {
+
         try {
-            if (incorporationCertUpload.isEmpty() || panUpload.isEmpty() || gstUpload.isEmpty() ||
-                bankUpload.isEmpty() || certUpload.isEmpty()) {
+            if (incorporationCertUpload.isEmpty() || panUpload.isEmpty() || gstUpload.isEmpty()
+                    || bankUpload.isEmpty() || certUpload.isEmpty()) {
                 return new ResponseEntity<>("All mandatory files must be provided.", HttpStatus.BAD_REQUEST);
             }
 

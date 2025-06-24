@@ -5,7 +5,14 @@
   font-family: 'Poppins', sans-serif;
 }
 
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+}
 
+/* Header & Navigation */
 header {
   position: fixed;
   top: 0;
@@ -81,31 +88,40 @@ nav {
   font-size: 34px;
 }
 
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
 
 .menu-dropdown a {
   display: block;
   padding: 10px;
   text-decoration: none;
-  color:rgba(241, 245, 247, 0.865);
+  color: rgba(4, 81, 117, 0.865);
   font-size: 18px;
   font-weight: 520;
+  background-color: white;
 }
-.menu-dropdown  a{
-  background-color:  rgba(4, 81, 117, 0.865);
-}
+
 .menu-dropdown a:hover {
-  background-color: rgba(4, 81, 117, 0.865);
+  background-color: rgba(4, 81, 117, 0.12);
+  color: #002b80;
 }
 
 .show {
   display: block;
 }
 
-#profileLink ,
-#LogoutLink{
-  display:none;
+#profileLink,
+#logoutLink {
+  display: none;
 }
-/* Section */
+
+/* Section & Slideshow */
 .section {
   width: 100%;
   height: 100%;
@@ -122,6 +138,15 @@ section h1 {
   color: #fff;
   font-weight: 600;
 }
+
+#slideshow {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.5s ease-in-out;
+}
+
 .slideshow-container {
   width: 100%;
   height: 100vh;
@@ -140,6 +165,7 @@ section h1 {
   left: 0;
   animation: fadeIn 1s ease-in-out;
 }
+
 .arrow {
   position: absolute;
   top: 50%;
@@ -180,8 +206,7 @@ section h1 {
   }
 }
 
-
-/* Login Modal */
+/* Auth Modal & Sliding Boxes */
 .auth-modal {
   position: absolute;
   width: 380px;
@@ -205,40 +230,95 @@ section h1 {
 .auth-modal .form-box {
   width: 100%;
   padding: 10px 20px 20px 20px;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   transition: transform 0.18s ease;
+  background: transparent;
+  z-index: 1;
 }
 
-.auth-modal .form-box.login {
+/* Vendor Login is default visible */
+.auth-modal .vendor-login {
+  transform: translateX(0);
+  z-index: 5;
+}
+
+/* Vendor Register is hidden right */
+.auth-modal .vendor-register {
+  transform: translateX(400px);
+  z-index: 5;
+}
+
+/* Client Login is hidden far left */
+.auth-modal .client-login {
+  transform: translateX(-400px);
+  z-index: 5;
+}
+
+/* Client Register is hidden far right */
+.auth-modal .client-register {
+  transform: translateX(800px);
+  z-index: 5;
+}
+
+/* Slide to Vendor Register */
+.auth-modal.slide-vendor-register .vendor-login {
+  transform: translateX(-400px);
+}
+.auth-modal.slide-vendor-register .vendor-register {
   transform: translateX(0);
 }
+.auth-modal.slide-vendor-register .client-login {
+  transform: translateX(-400px);
+}
+.auth-modal.slide-vendor-register .client-register {
+  transform: translateX(800px);
+}
 
-.auth-modal .form-box.register {
-  position: absolute;
-  top: 2px;
-  left: 0;
-  width: 100%;
-  padding: 10px 20px 20px 20px;
+/* Slide to Vendor Login (default) */
+.auth-modal.slide-vendor-login .vendor-login {
+  transform: translateX(0);
+}
+.auth-modal.slide-vendor-login .vendor-register {
+  transform: translateX(400px);
+}
+.auth-modal.slide-vendor-login .client-login {
+  transform: translateX(-400px);
+}
+.auth-modal.slide-vendor-login .client-register {
+  transform: translateX(800px);
+}
+
+/* Slide to Client Login */
+.auth-modal.slide-client-login .vendor-login {
+  transform: translateX(-800px);
+}
+.auth-modal.slide-client-login .vendor-register {
+  transform: translateX(-400px);
+}
+.auth-modal.slide-client-login .client-login {
+  transform: translateX(0);
+}
+.auth-modal.slide-client-login .client-register {
   transform: translateX(400px);
 }
 
-.auth-modal.slide {
-  height: 480px;
+/* Slide to Client Register */
+.auth-modal.slide-client-register .vendor-login {
+  transform: translateX(-800px);
 }
-
-.auth-modal .form-box.register h2 {
-  margin-top: 2px; 
-}
-.auth-modal.slide .form-box.login {
+.auth-modal.slide-client-register .vendor-register {
   transform: translateX(-400px);
-  transition: none;
 }
-
-.auth-modal.slide .form-box.register {
+.auth-modal.slide-client-register .client-login {
+  transform: translateX(-400px);
+}
+.auth-modal.slide-client-register .client-register {
   transform: translateX(0);
-  transition: transform 0.18s ease;
 }
 
+/* Modal Form Styling */
 .form-box h2 {
   font-size: 23px;
   text-align: center;
@@ -287,10 +367,12 @@ section h1 {
   z-index: 0;
   transition: color 0.4s ease;
 }
-.g-recaptcha{
+
+.g-recaptcha {
   margin-left: 20px;
-  margin: 10px  20px 20px;
+  margin: 10px 20px 20px;
 }
+
 .btn::before {
   content: "";
   position: absolute;
@@ -311,11 +393,6 @@ section h1 {
   color: #002b80;
 }
 
-#profileLink,
-#logoutLink{
-  display: none;
-}
-
 .form-box p {
   font-size: 16px;
   text-align: center;
@@ -331,11 +408,12 @@ section h1 {
 .form-box p a:hover {
   text-decoration: underline;
 }
+
 .auth-modal .form-box.register {
-  padding: 10px 20px 10px 10px; /* increased bottom padding */
+  padding: 10px 20px 10px 10px;
 }
 
-
+/* Autofill fix */
 input:-webkit-autofill {
   background-color: transparent !important;
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
@@ -345,22 +423,6 @@ input:-webkit-autofill {
 }
 input:-webkit-autofill::first-line {
   font-family: 'Poppins', sans-serif;
-}
-.menu-dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  background-color: white;
-  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
-
-/* Basic style setup */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f9f9f9;
 }
 
 /* OTP Modal */
@@ -383,9 +445,8 @@ body {
   border-radius: 10px;
   width: 400px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); /* Light blue shadow */
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
 }
-
 
 #otpInputs {
   display: flex;
@@ -396,15 +457,16 @@ body {
 .otp-box {
   width: 50px;
   height: 50px;
-  font-size: 20spx;
+  font-size: 20px;
   text-align: center;
-   border: 1px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
 }
+
 .otp-box-container button {
-  background-color: #007bff; /* Blue background */
-  color: white;              /* White text */
+  background-color: #007bff;
+  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 6px;
@@ -414,7 +476,5 @@ body {
 }
 
 .otp-box-container button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3;
 }
-
-

@@ -1,7 +1,7 @@
-package com.ceil.vendor.vendorportal.controller;
+package com.vendormodule.Vendor.Module.controller;
 
-import com.ceil.vendor.vendorportal.dto.LoginRequest;
-import com.ceil.vendor.vendorportal.service.EmployeeService;
+import com.vendormodule.Vendor.Module.dto.LoginRequest;
+import com.vendormodule.Vendor.Module.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

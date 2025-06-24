@@ -39,7 +39,7 @@ public class SecurityConfig {
                     "/",
                     "/index.html",
                     "/dashboard.html",
-                    "/DetailPersonal.html",
+                    "/details.html",
                     "/*.html",
                     "/*.css",
                     "/*.js",

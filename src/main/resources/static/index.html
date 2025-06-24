@@ -94,8 +94,9 @@
 </section>
 
 <!-- Auth Modal -->
-<div class="auth-modal">
-  <div class="form-box login">
+<div class="auth-modal slide-vendor-login">
+  <!-- Vendor Login -->
+  <div class="form-box login vendor-login">
     <h2>Vendor Login</h2>
     <form id="loginForm">
       <div class="input-box"><input type="email" name="email" placeholder="Email" required /></div>
@@ -103,24 +104,53 @@
       <div class="g-recaptcha" data-sitekey="6Ld7MVUrAAAAAONqdcmdvndaaFFiOVLMwH0cka1x"></div>
       <button type="submit" class="btn">Login</button>
       <p><i>Don't have an account?</i> <a href="#" class="register-link">Register</a></p>
-      <p><i>CEIL Employee?</i> <a href="#" class="Employee-register">Login</a></p>
+      <p><i>Client?</i> <a href="#" class="client-login-link">Login</a> or <a href="#" class="client-register-link">Register</a></p>
     </form>
   </div>
 
-  <div class="form-box register">
+  <!-- Vendor Register -->
+  <div class="form-box register vendor-register">
     <h2>Vendor Registration</h2>
     <form id="registerForm" method="POST">
       <div class="input-box"><input type="text" name="name" placeholder="Personal Name" required /></div>
-      <div class="input-box"><input type="email" name="email" / placeholder="Offical Email" required /></div>
+      <div class="input-box"><input type="email" name="email" placeholder="Official Email" required /></div>
       <div class="input-box"><input type="password" name="password" placeholder="Password" required /></div>
       <div class="g-recaptcha" data-sitekey="6Ld7MVUrAAAAAONqdcmdvndaaFFiOVLMwH0cka1x"></div>
       <button type="submit" class="btn">Register</button>
       <p><i>Already have an account?</i> <a href="#" class="login-link">Login</a></p>
+      <p><i>Client?</i> <a href="#" class="client-login-link">Login</a> or <a href="#" class="client-register-link">Register</a></p>
+    </form>
+  </div>
+
+  <!-- Client Login -->
+  <div class="form-box login client-login">
+    <h2>Client Login</h2>
+    <form id="clientLoginForm">
+      <div class="input-box"><input type="email" name="email" placeholder="Client Email" required /></div>
+      <div class="input-box"><input type="password" name="password" placeholder="Password" required /></div>
+      <div class="g-recaptcha" data-sitekey="6Ld7MVUrAAAAAONqdcmdvndaaFFiOVLMwH0cka1x"></div>
+      <button type="submit" class="btn">Login</button>
+      <p><i>Don't have a client account?</i> <a href="#" class="client-register-link">Register</a></p>
+      <p><i>Vendor?</i> <a href="#" class="vendor-login-link">Login</a> or <a href="#" class="register-link">Register</a></p>
+    </form>
+  </div>
+
+  <!-- Client Register -->
+  <div class="form-box register client-register">
+    <h2>Client Registration</h2>
+    <form id="clientRegisterForm" method="POST">
+      <div class="input-box"><input type="text" name="name" placeholder="Client Name" required /></div>
+      <div class="input-box"><input type="email" name="email" placeholder="Client Email" required /></div>
+      <div class="input-box"><input type="password" name="password" placeholder="Password" required /></div>
+      <div class="g-recaptcha" data-sitekey="6Ld7MVUrAAAAAONqdcmdvndaaFFiOVLMwH0cka1x"></div>
+      <button type="submit" class="btn">Register</button>
+      <p><i>Already have a client account?</i> <a href="#" class="client-login-link">Login</a></p>
+      <p><i>Vendor?</i> <a href="#" class="vendor-login-link">Login</a> or <a href="#" class="register-link">Register</a></p>
     </form>
   </div>
 </div>
 
-<!-- OTP Modal -->
+<!-- OTP Modal (only one, not duplicated) -->
 <div id="otpModal" style="display: none;">
   <div class="otp-box-container">
     <h3>Enter OTP</h3>

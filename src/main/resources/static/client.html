@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1300, initial-scale=1.0"/>
+  <title>Client Portal</title>
+  <link rel="stylesheet" href="client.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <img src="logo.jpeg" alt="Logo" />
+      <div>
+        <h1>CEIL</h1>
+        <h2>CERTIFICATION ENGINEERS INTERNATIONAL LIMITED</h2>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-user-row">
+        <button class="logout" onclick="window.location.href='index.html'">Logout</button>
+      </div>
+      <p id="welcomeUser">Welcome: Client</p>
+    </div>
+  </header>
+  <!-- NavBar -->
+  <nav class="navbar">
+    <a href="#" id="nav-client-info" class="active">Client Info</a>
+    <a href="#" id="nav-company-info">Company Info</a>
+    <a href="#" id="nav-documents">Documents</a>
+    <a href="#" id="nav-project">Project</a>
+    <a href="#" id="nav-ongoing-projects">Ongoing Project</a>
+  </nav>
+  <main>
+    <!-- CLIENT INFO FORM -->
+    <section id="section-client-info" class="section active-section">
+      <div class="form-container">
+        <h2>Client Personal Information</h2>
+        <form id="clientInfoForm" autocomplete="off">
+          <div class="form-row">
+            <label for="fullName">Full Name *</label>
+            <input type="text" id="fullName" name="fullName" required />
+          </div>
+          <div class="form-row">
+            <label for="designation">Designation/Role *</label>
+            <input type="text" id="designation" name="designation" required />
+          </div>
+          <div class="form-row">
+            <label for="officialEmail">Official Email *</label>
+            <input type="email" id="officialEmail" name="officialEmail" required />
+          </div>
+          <div class="form-row">
+            <label for="mobile">Mobile Number *</label>
+            <input type="tel" id="mobile" name="mobile" required pattern="[0-9+\-\s]+" />
+          </div>
+          <div class="form-row">
+            <label for="altContact">Alternate Contact Number (optional)</label>
+            <input type="tel" id="altContact" name="altContact" pattern="[0-9+\-\s]*" />
+          </div>
+          <div class="form-row full-width">
+            <button type="button" class="next-btn" id="toCompanyInfo">Next &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- COMPANY INFO FORM -->
+    <section id="section-company-info" class="section">
+      <div class="form-container">
+        <h2>Company Information</h2>
+        <form id="companyInfoForm" autocomplete="off">
+          <div class="form-row">
+            <label for="companyName">Company Name *</label>
+            <input type="text" id="companyName" name="companyName" required />
+          </div>
+          <div class="form-row">
+            <label for="industryType">Industry Type *</label>
+            <select id="industryType" name="industryType" required>
+              <option value="">Select...</option>
+              <option value="IT">IT</option>
+              <option value="Manufacturing">Manufacturing</option>
+              <option value="Construction">Construction</option>
+              <option value="Finance">Finance</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Consulting">Consulting</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="companyAddress">Company Address *</label>
+            <input type="text" id="companyAddress" name="companyAddress" required />
+          </div>
+          <div class="form-row">
+            <label for="companyEmail">Official Company Email *</label>
+            <input type="email" id="companyEmail" name="companyEmail" required />
+          </div>
+          <div class="form-row">
+            <label for="estYear">Year of Establishment *</label>
+            <input type="number" min="1900" max="2099" id="estYear" name="estYear" required />
+          </div>
+          <div class="form-row">
+            <label for="msme">Registered under MSME? *</label>
+            <select id="msme" name="msme" required>
+              <option value="">Select...</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="form-row" id="udyamRow" style="display:none;">
+            <label for="udyam">Udyam Registration Number *</label>
+            <input type="text" id="udyam" name="udyam" />
+          </div>
+          <div class="form-row">
+            <label for="gstin">GSTIN (optional)</label>
+            <input type="text" id="gstin" name="gstin" />
+          </div>
+          <div class="form-row">
+            <label for="website">Website (optional)</label>
+            <input type="url" id="website" name="website" />
+          </div>
+          <div class="form-row full-width" style="display:flex;justify-content:space-between;">
+            <button type="button" class="prev-btn" id="backToClientInfo">&larr; Back</button>
+            <button type="button" class="next-btn" id="toDocuments">Next &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- DOCUMENTS FORM -->
+    <section id="section-documents" class="section">
+      <div class="form-container">
+        <h2>Upload Documents</h2>
+        <form id="documentsForm" autocomplete="off">
+          <div class="form-row">
+            <label for="pan">Company PAN Card (PDF) *</label>
+            <input type="file" id="pan" name="pan" accept="application/pdf" required />
+          </div>
+          <div class="form-row" id="gstDocRow" style="display:none;">
+            <label for="gstDoc">GST Certificate (PDF) *</label>
+            <input type="file" id="gstDoc" name="gstDoc" accept="application/pdf" />
+          </div>
+          <div class="form-row" id="udyamDocRow" style="display:none;">
+            <label for="udyamDoc">Udyam/MSME Certificate (PDF) *</label>
+            <input type="file" id="udyamDoc" name="udyamDoc" accept="application/pdf" />
+          </div>
+          <div class="form-row">
+            <label for="regProof">Company Registration Proof (ROC, Deed, etc.) (PDF) *</label>
+            <input type="file" id="regProof" name="regProof" accept="application/pdf" required />
+          </div>
+          <div class="form-row">
+            <label for="workOrder">Work Order/Tender Document (optional, PDF)</label>
+            <input type="file" id="workOrder" name="workOrder" accept="application/pdf" />
+          </div>
+          <div class="form-row full-width" style="display:flex;justify-content:space-between;">
+            <button type="button" class="prev-btn" id="backToCompanyInfo">&larr; Back</button>
+            <button type="button" class="next-btn" id="toProject">Next &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- PROJECT SECTION -->
+    <section id="section-project" class="section">
+      <div class="form-container">
+        <h2>Project</h2>
+        <div class="project-tabs">
+          <button id="project-request-tab" class="project-tab active">Request Services</button>
+          <button id="project-matches-tab" class="project-tab">Matches</button>
+        </div>
+        <div id="project-request" class="project-content active">
+          <form id="serviceRequestForm">
+            <div class="form-row">
+              <label for="projectTitle">Project Title *</label>
+              <input type="text" id="projectTitle" name="projectTitle" required>
+            </div>
+            <div class="form-row">
+              <label for="projectDesc">Project Description *</label>
+              <textarea id="projectDesc" name="projectDesc" rows="4" required></textarea>
+            </div>
+            <div class="form-row">
+              <label for="serviceCategory">Service Category *</label>
+              <select id="serviceCategory" name="serviceCategory" required>
+                <option value="">Select...</option>
+                <option value="Civil">Civil</option>
+                <option value="IT">IT</option>
+                <option value="Mechanical">Mechanical</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Construction">Construction</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="startDate">Expected Start Date *</label>
+              <input type="date" id="startDate" name="startDate" required>
+            </div>
+            <div class="form-row">
+              <label for="endDate">Expected End Date *</label>
+              <input type="date" id="endDate" name="endDate" required>
+            </div>
+            <div class="form-row">
+              <label for="location">Project Location *</label>
+              <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-row">
+              <label for="budget">Budget (Optional)</label>
+              <input type="number" id="budget" name="budget" min="0" step="any">
+            </div>
+            <div class="form-row">
+              <label for="priority">Priority *</label>
+              <select id="priority" name="priority" required>
+                <option value="">Select...</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="preferredVendors">Preferred Vendors (Optional)</label>
+              <select id="preferredVendors" name="preferredVendors" multiple>
+                <option value="Vendor A">Vendor A</option>
+                <option value="Vendor B">Vendor B</option>
+                <option value="Vendor C">Vendor C</option>
+              </select>
+              <small style="color:#444;font-size:15px;">(Hold Ctrl/Cmd to select multiple)</small>
+            </div>
+            <div class="form-row full-width">
+              <button type="submit" class="submit-btn">Submit Project Request</button>
+            </div>
+            <div id="serviceRequestStatus" class="success-msg" style="display:none;"></div>
+          </form>
+        </div>
+        <div id="project-matches" class="project-content">
+          <h3>Matched Vendors</h3>
+          <ul id="matchedVendorsList">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+        <div class="form-row full-width" style="margin-top:24px;text-align:right;">
+          <button type="button" class="prev-btn" id="backToDocuments">&larr; Back</button>
+        </div>
+      </div>
+    </section>
+    <!-- ONGOING PROJECTS SECTION -->
+    <section id="section-ongoing-projects" class="section">
+      <div class="form-container">
+        <h2>Ongoing Project</h2>
+        <form id="ongoingProjectForm" style="margin-bottom: 24px;">
+          <div class="form-row">
+            <label for="ongoingProjectSelect">Select Project Number *</label>
+            <select id="ongoingProjectSelect" required>
+              <option value="">Select Project</option>
+              <!-- JS populates this -->
+            </select>
+          </div>
+        </form>
+        <div id="ceil-table-dynamic-container" style="display:none;">
+          <!-- Table will be injected here by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Footer Support Contact Modal Trigger -->
+<footer>
+  &copy; 2025 CEIL. All rights reserved.
+  <button id="openSupportModal" class="footer-support-btn">Contact Support</button>
+</footer>
+
+<!-- Support Modal -->
+<div id="supportModal" class="support-modal">
+  <div class="support-modal-content">
+    <span class="support-modal-close" id="closeSupportModal">&times;</span>
+    <h2>Contact Support</h2>
+    <form id="supportForm" autocomplete="off">
+      <div class="support-form-row">
+        <label for="supportName">Name *</label>
+        <input type="text" id="supportName" name="supportName" required>
+      </div>
+      <div class="support-form-row">
+        <label for="supportEmail">Email *</label>
+        <input type="email" id="supportEmail" name="supportEmail" required>
+      </div>
+      <div class="support-form-row">
+        <label for="supportSubject">Subject *</label>
+        <input type="text" id="supportSubject" name="supportSubject" required>
+      </div>
+      <div class="support-form-row">
+        <label for="supportMessage">Message *</label>
+        <textarea id="supportMessage" name="supportMessage" required rows="4"></textarea>
+      </div>
+      <div class="support-form-row">
+        <button type="submit" class="support-submit-btn">Submit</button>
+      </div>
+      <div id="supportFormStatus" class="support-success-msg" style="display:none;"></div>
+    </form>
+  </div>
+</div>
+  <script src="client.js"></script>
+</body>
+</html>

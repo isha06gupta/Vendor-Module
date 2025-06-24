@@ -1,34 +1,40 @@
+// ========== GLOBALS ==========
 let registeredEmail = ""; // Global variable to store registered email
+let clientRegisteredEmail = ""; // For client registration OTP
 
-// Hover dropdown
+// ========== HOVER DROPDOWN ==========
 document.querySelectorAll(".nav-item").forEach((item) => {
   item.addEventListener("mouseenter", () => {
     const dropdown = item.querySelector(".dropdown");
     if (dropdown) dropdown.style.display = "block";
   });
-
   item.addEventListener("mouseleave", () => {
     const dropdown = item.querySelector(".dropdown");
     if (dropdown) dropdown.style.display = "none";
   });
 });
 
-// Slideshow
-const slideshow = document.getElementById("slideshow");
+// ========== SLIDESHOW ==========
 const images = ["2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg"];
 let current = 0;
-slideshow.style.backgroundImage = `url(${images[current]})`;
-setInterval(() => {
-  current = (current + 1) % images.length;
-  slideshow.style.backgroundImage = `url(${images[current]})`;
-}, 3000);
-
-window.changeImage = (step) => {
+const slideshow = document.getElementById("slideshow");
+function showSlide(idx) {
+  if (slideshow) {
+    slideshow.style.backgroundImage = `url(${images[idx]})`;
+  }
+}
+if (slideshow) {
+  showSlide(current);
+  setInterval(() => {
+    current = (current + 1) % images.length;
+    showSlide(current);
+  }, 3000);
+}
+window.changeImage = function (step) {
   current = (current + step + images.length) % images.length;
-  slideshow.style.backgroundImage = `url(${images[current]})`;
+  showSlide(current);
 };
-
-// Test server connection
+// ========== TEST SERVER CONNECTION ==========
 async function testServerConnection() {
   try {
     const response = await fetch("http://localhost:9090/auth/test");
@@ -41,191 +47,238 @@ async function testServerConnection() {
   }
 }
 
+// ========== MODAL SLIDING ==========
+const authModal = document.querySelector('.auth-modal');
+
+// Use querySelectorAll for all possible navigation links and handle accordingly
+document.querySelectorAll('.register-link').forEach(link =>
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    authModal.className = 'auth-modal slide-vendor-register';
+  })
+);
+document.querySelectorAll('.login-link').forEach(link =>
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    authModal.className = 'auth-modal slide-vendor-login';
+  })
+);
+document.querySelectorAll('.client-login-link').forEach(link =>
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    authModal.className = 'auth-modal slide-client-login';
+  })
+);
+document.querySelectorAll('.client-register-link').forEach(link =>
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    authModal.className = 'auth-modal slide-client-register';
+  })
+);
+document.querySelectorAll('.vendor-login-link').forEach(link =>
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    authModal.className = 'auth-modal slide-vendor-login';
+  })
+);
+
+// ========== DOM READY ==========
 document.addEventListener("DOMContentLoaded", () => {
-  // Test server connection on page load
   testServerConnection();
 
   // Hamburger menu
   const menuIcon = document.getElementById("menuIcon");
   const menuDropdown = document.getElementById("menuDropdown");
-
   menuIcon?.addEventListener("click", (e) => {
     e.stopPropagation();
     menuDropdown.style.display = menuDropdown.style.display === "block" ? "none" : "block";
   });
-
   document.addEventListener("click", (e) => {
-    if (!menuIcon.contains(e.target)) {
+    if (menuIcon && !menuIcon.contains(e.target)) {
       menuDropdown.style.display = "none";
     }
   });
 
-  // Auth modal
-  const loginBox = document.querySelector(".form-box.login");
-  const registerBox = document.querySelector(".form-box.register");
-  const authModal = document.querySelector(".auth-modal");
-
-  document.querySelector(".register-link").addEventListener("click", (e) => {
-    e.preventDefault();
-    authModal.classList.add("slide");
-    loginBox.style.transform = "translateX(-400px)";
-    registerBox.style.transform = "translateX(0)";
-  });
-
-  document.querySelector(".login-link").addEventListener("click", (e) => {
-    e.preventDefault();
-    authModal.classList.remove("slide");
-    loginBox.style.transform = "translateX(0)";
-    registerBox.style.transform = "translateX(400px)";
-  });
-
-  // LOGIN
-  document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const data = {
-      email: form.email.value.trim(),
-      password: form.password.value,
-    };
-
-    // Basic validation
-    if (!data.email || !data.password) {
-      alert("❌ Please fill in all fields");
-      return;
-    }
-
-    try {
-      console.log("=== FRONTEND LOGIN ATTEMPT ===");
-      console.log("Email:", data.email);
-      console.log("Password:", data.password ? "[PRESENT]" : "[MISSING]");
-
-      // First test server connection
-      const serverWorking = await testServerConnection();
-      if (!serverWorking) {
-        alert("❌ Cannot connect to server. Please check if the server is running on port 9090.");
+  // --- Vendor LOGIN ---
+  if (document.getElementById("loginForm")) {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        email: form.email.value.trim(),
+        password: form.password.value,
+      };
+      if (!data.email || !data.password) {
+        alert("❌ Please fill in all fields");
         return;
       }
-
-      console.log("Making login request...");
-      // Changed endpoint to /api-login to avoid conflict
-      const res = await fetch("http://localhost:9090/auth/api-login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      console.log("Response received:");
-      console.log("Status:", res.status);
-      console.log("Status Text:", res.statusText);
-      console.log("Headers:", Object.fromEntries(res.headers.entries()));
-
-      // Get response text first to see what we're actually receiving
-      const responseText = await res.text();
-      console.log("Raw response:", responseText);
-
-      // Check if response is JSON
-      const contentType = res.headers.get("content-type");
-      console.log("Content-Type:", contentType);
-
-      if (!contentType || !contentType.includes("application/json")) {
-        console.error("Non-JSON response received:");
-        console.error("Content-Type:", contentType);
-        console.error("Response body:", responseText);
-
-        // Show more specific error message
-        if (responseText.includes("<!DOCTYPE")) {
-          alert(
-            "❌ Server returned HTML page instead of JSON. This usually means:\n1. Wrong URL/endpoint\n2. Server error\n3. Security configuration issue\n\nCheck server console logs."
-          );
-        } else {
-          alert("❌ Server returned non-JSON response: " + responseText.substring(0, 100));
-        }
-        return;
-      }
-
-      // Parse JSON response
-      let result;
       try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error("JSON parse error:", parseError);
-        alert("❌ Invalid JSON response from server");
-        return;
-      }
-
-      console.log("Parsed response:", result);
-
-      if (res.ok && result.id) {
-        localStorage.setItem("currentVendorId", result.id);
-        localStorage.setItem("currentVendorEmail", result.email);
-        if (result.name) {
-          localStorage.setItem("currentVendorName", result.name);
+        const serverWorking = await testServerConnection();
+        if (!serverWorking) {
+          alert("❌ Cannot connect to server. Please check if the server is running on port 9090.");
+          return;
         }
-        alert("✅ Login successful!");
-        window.location.href = "DetailPersonal.html";
-      } else {
-        throw new Error(result.error || "Login failed");
+        const res = await fetch("http://localhost:9090/auth/api-login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const responseText = await res.text();
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          alert("❌ Server returned non-JSON response: " + responseText.substring(0, 100));
+          return;
+        }
+        let result;
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseError) {
+          alert("❌ Invalid JSON response from server");
+          return;
+        }
+        if (res.ok && result.id) {
+          localStorage.setItem("currentVendorId", result.id);
+          localStorage.setItem("currentVendorEmail", result.email);
+          if (result.name) {
+            localStorage.setItem("currentVendorName", result.name);
+          }
+          alert("✅ Login successful!");
+          window.location.href = "details.html";
+        } else {
+          throw new Error(result.error || "Login failed");
+        }
+      } catch (err) {
+        alert("❌ Login failed: " + err.message);
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("❌ Login failed: " + err.message);
-    }
-  });
+    });
+  }
 
-  // REGISTER
-  document.getElementById("registerForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-    registeredEmail = formData.get("email"); // Save for OTP
-
-    // Basic validation
-    if (!registeredEmail || !formData.get("password") || !formData.get("name")) {
-      alert("❌ Please fill in all fields");
-      return;
-    }
-
-    try {
-      console.log("=== FRONTEND REGISTRATION ATTEMPT ===");
-      console.log("Email:", registeredEmail);
-
-      const response = await fetch("http://localhost:9090/auth/register", {
-        method: "POST",
-        body: formData,
-      });
-
-      console.log("Registration response status:", response.status);
-
-      const responseText = await response.text();
-      console.log("Registration raw response:", responseText);
-
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        console.error("Non-JSON response:", responseText);
-        alert("❌ Server returned non-JSON response. Check server logs.");
+  // --- Vendor REGISTER ---
+  if (document.getElementById("registerForm")) {
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      registeredEmail = formData.get("email");
+      if (!registeredEmail || !formData.get("password") || !formData.get("name")) {
+        alert("❌ Please fill in all fields");
         return;
       }
-
-      const result = JSON.parse(responseText);
-      console.log("Registration parsed response:", result);
-
-      if (response.ok) {
-        alert("✅ " + result.message);
-        document.getElementById("otpModal").style.display = "flex";
-      } else {
-        alert("❌ " + (result.error || "Registration failed"));
+      try {
+        const response = await fetch("http://localhost:9090/auth/register", {
+          method: "POST",
+          body: formData,
+        });
+        const responseText = await response.text();
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          alert("❌ Server returned non-JSON response. Check server logs.");
+          return;
+        }
+        const result = JSON.parse(responseText);
+        if (response.ok) {
+          alert("✅ " + result.message);
+          document.getElementById("otpModal").style.display = "flex";
+        } else {
+          alert("❌ " + (result.error || "Registration failed"));
+        }
+      } catch (error) {
+        alert("❌ Registration error: " + error.message);
       }
-    } catch (error) {
-      console.error("Registration error:", error);
-      alert("❌ Registration error: " + error.message);
-    }
-  });
+    });
+  }
 
-  // OTP auto tab
+  // --- Client LOGIN ---
+  if (document.getElementById("clientLoginForm")) {
+    document.getElementById("clientLoginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        email: form.email.value.trim(),
+        password: form.password.value,
+      };
+      if (!data.email || !data.password) {
+        alert("❌ Please fill in all fields");
+        return;
+      }
+      try {
+        const res = await fetch("http://localhost:9090/auth/client-login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const responseText = await res.text();
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          alert("❌ Server returned non-JSON response: " + responseText.substring(0, 100));
+          return;
+        }
+        let result;
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseError) {
+          alert("❌ Invalid JSON response from server");
+          return;
+        }
+        if (res.ok && result.id) {
+          localStorage.setItem("currentClientId", result.id);
+          localStorage.setItem("currentClientEmail", result.email);
+          if (result.name) {
+            localStorage.setItem("currentClientName", result.name);
+          }
+          alert("✅ Client login successful!");
+          window.location.href = "client-dashboard.html";
+        } else {
+          throw new Error(result.error || "Login failed");
+        }
+      } catch (err) {
+        alert("❌ Login failed: " + err.message);
+      }
+    });
+  }
+
+  // --- Client REGISTER ---
+  if (document.getElementById("clientRegisterForm")) {
+    document.getElementById("clientRegisterForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      clientRegisteredEmail = formData.get("email");
+      if (!clientRegisteredEmail || !formData.get("password") || !formData.get("name")) {
+        alert("❌ Please fill in all fields");
+        return;
+      }
+      try {
+        const response = await fetch("http://localhost:9090/auth/client-register", {
+          method: "POST",
+          body: formData,
+        });
+        const responseText = await response.text();
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          alert("❌ Server returned non-JSON response. Check server logs.");
+          return;
+        }
+        const result = JSON.parse(responseText);
+        if (response.ok) {
+          alert("✅ " + result.message);
+          document.getElementById("otpModal").style.display = "flex";
+        } else {
+          alert("❌ " + (result.error || "Registration failed"));
+        }
+      } catch (error) {
+        alert("❌ Registration error: " + error.message);
+      }
+    });
+  }
+
+  // --- OTP auto tab ---
   document.querySelectorAll(".otp-box").forEach((box, index, arr) => {
     box.addEventListener("input", () => {
       if (box.value && index < arr.length - 1) arr[index + 1].focus();
@@ -233,42 +286,33 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// OTP submit
+// ========== OTP SUBMIT ==========
 function submitOtp() {
   const otp = Array.from(document.querySelectorAll(".otp-box"))
     .map((i) => i.value)
     .join("");
+  // Use registeredEmail for vendor, clientRegisteredEmail for client
+  // Prefer the one most recently set (client registration sets clientRegisteredEmail, vendor sets registeredEmail)
+  const email = clientRegisteredEmail || registeredEmail;
 
-  if (otp.length === 6 && registeredEmail) {
-    console.log("=== FRONTEND OTP SUBMISSION ===");
-    console.log("Email:", registeredEmail);
-    console.log("OTP:", otp);
-
+  if (otp.length === 6 && email) {
     fetch("http://localhost:9090/auth/verify-otp", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Accept: "application/json",
       },
-      body: new URLSearchParams({ email: registeredEmail, otp }),
+      body: new URLSearchParams({ email, otp }),
     })
       .then(async (res) => {
-        console.log("OTP response status:", res.status);
-
         const responseText = await res.text();
-        console.log("OTP raw response:", responseText);
-
         const contentType = res.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
-          console.error("Non-JSON response:", responseText);
           throw new Error("Server returned non-JSON response");
         }
-
         return JSON.parse(responseText);
       })
       .then((data) => {
-        console.log("OTP parsed response:", data);
-
         if (data.message) {
           alert("✅ " + data.message);
           document.getElementById("otpModal").style.display = "none";
@@ -278,7 +322,6 @@ function submitOtp() {
         }
       })
       .catch((err) => {
-        console.error("OTP error:", err);
         alert("❌ " + err.message);
       });
   } else {
