@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEO Dashboard - CEIL Vendor Portal</title>
+    
+    <link rel="stylesheet" href="common_dashboard.css"> 
+    <link rel="stylesheet" href="ceo_dashboard.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>CEO Dashboard</h1>
+        <div class="user-info">
+            Welcome, CEO! <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <h2>Overview</h2>
+        <div class="dashboard-card-grid">
+            <div class="dashboard-card">
+                <h3>Admin Management</h3>
+                <p>Assign and manage CEIL Administrators for the system.</p>
+                <a href="#">Go to Admin Assignment</a> </div>
+            <div class="dashboard-card">
+                <h3>View All Reports</h3>
+                <p>Access comprehensive reports on jobs, POs, and document statuses.</p>
+                <a href="#">Go to Reports</a> </div>
+            </div>
+    </div>
+
+    <script>
+        function logout() {
+            fetch('/api/employee/logout', { // Assuming you have a logout endpoint in your backend
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/ceil%20emp.html'; // Redirect to login page after logout
+                } else {
+                    alert('Logout failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+                alert('An error occurred during logout.');
+            });
+        }
+    </script>
+</body>
+</html>

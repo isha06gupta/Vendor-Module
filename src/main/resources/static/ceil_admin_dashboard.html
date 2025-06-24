@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEIL Admin Dashboard - CEIL Vendor Portal</title>
+    
+    <!-- Common styles for all dashboards -->
+    <link rel="stylesheet" href="common_dashboard.css"> 
+    <!-- Specific styles for the CEIL Admin dashboard -->
+    <link rel="stylesheet" href="ceil_admin_dashboard.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>CEIL Admin Dashboard</h1>
+        <div class="user-info">
+            Welcome, CEIL Admin! <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <h2>Admin Tools & Management</h2>
+        <div class="dashboard-card-grid">
+            <div class="dashboard-card">
+                <h3>User Management</h3>
+                <p>Manage all user accounts: CEIL Staff, Vendors, and Clients.</p>
+                <a href="#">Manage Users</a> <!-- Link to user management page -->
+            </div>
+            <div class="dashboard-card">
+                <h3>Create Purchase Order (PO)</h3>
+                <p>Generate new Purchase Orders and allocate them to vendors, clients, and engineers.</p>
+                <a href="#">Create New PO</a> <!-- Link to PO creation form -->
+            </div>
+            <div class="dashboard-card">
+                <h3>Vendor & Client Allocation</h3>
+                <p>Assign vendors and clients to specific jobs and projects.</p>
+                <a href="#">Manage Allocations</a> <!-- Link to allocation management page -->
+            </div>
+            <div class="dashboard-card">
+                <h3>Coordinator Assignment</h3>
+                <p>Allocate jobs and tasks to CEIL Coordinators.</p>
+                <a href="#">Assign Coordinators</a> <!-- Link to coordinator assignment page -->
+            </div>
+            <div class="dashboard-card">
+                <h3>System Settings</h3>
+                <p>Configure system-wide settings and parameters.</p>
+                <a href="#">Configure Settings</a> <!-- Link to system settings page -->
+            </div>
+            <!-- Add more admin-specific cards as needed -->
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            fetch('/api/employee/logout', { // Assuming you have a logout endpoint in your backend
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/ceil%20emp.html'; // Redirect to login page after logout
+                } else {
+                    alert('Logout failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+                alert('An error occurred during logout.');
+            });
+        }
+    </script>
+</body>
+</html>

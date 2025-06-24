@@ -1,0 +1,17 @@
+.dashboard-card {
+    background-color: #ffe0b2; 
+    border: 1px solid #ffb74d;
+}
+
+.dashboard-card h3 {
+    color: #fb8c00; 
+}
+
+.dashboard-card a {
+    background-color: #ff9800; 
+}
+
+.dashboard-card a:hover {
+    background-color: #e68a00;
+}
+

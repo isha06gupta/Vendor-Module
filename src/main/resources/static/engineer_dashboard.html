@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineer Dashboard - CEIL Vendor Portal</title>
+    
+    <!-- Common styles for all dashboards -->
+    <link rel="stylesheet" href="common_dashboard.css"> 
+    <!-- Specific styles for the Engineer dashboard -->
+    <link rel="stylesheet" href="engineer_dashboard.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>CEIL Engineer Dashboard</h1>
+        <div class="user-info">
+            Welcome, Engineer! <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <h2>Document Review & IRN Upload</h2>
+        <div class="dashboard-card-grid">
+            <div class="dashboard-card">
+                <h3>Documents for Review</h3>
+                <p>View and process documents assigned by Coordinators for review and approval.</p>
+                <a href="#">Review Documents</a> <!-- Link to documents awaiting engineer review -->
+            </div>
+            <div class="dashboard-card">
+                <h3>Upload Approved Documents</h3>
+                <p>Upload annotated and approved documents with final approval codes (A, B, C, D, R).</p>
+                <a href="#">Upload Approved</a> <!-- Link to upload form for approved documents -->
+            </div>
+            <div class="dashboard-card">
+                <h3>Upload Inspection Release Notes (IRN)</h3>
+                <p>Upload IRN documents received from external software.</p>
+                <a href="#">Upload IRN</a> <!-- Link to IRN upload form -->
+            </div>
+            <div class="dashboard-card">
+                <h3>View Job Status</h3>
+                <p>Track the progress and status of jobs assigned to you.</p>
+                <a href="#">View My Jobs</a> <!-- Link to personal job overview -->
+            </div>
+            <!-- Add more engineer-specific cards as needed -->
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            fetch('/api/employee/logout', { // Assuming you have a logout endpoint in your backend
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/ceil%20emp.html'; // Redirect to login page after logout
+                } else {
+                    alert('Logout failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+                alert('An error occurred during logout.');
+            });
+        }
+    </script>
+</body>
+</html>

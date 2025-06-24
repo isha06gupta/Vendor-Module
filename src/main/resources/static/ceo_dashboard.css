@@ -1,0 +1,11 @@
+/* Specific styles for CEO Dashboard */
+
+.dashboard-card {
+    background-color: #e3f2fd; /* Lighter blue for CEO cards */
+    border: 1px solid #90caf9;
+}
+
+.dashboard-card h3 {
+    color: #1a73e8; /* A more prominent blue for headings */
+}
+

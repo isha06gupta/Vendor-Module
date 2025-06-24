@@ -1,0 +1,18 @@
+
+.dashboard-card {
+    background-color: #e8f5e9; /* Light green for Admin cards */
+    border: 1px solid #a5d6a7;
+}
+
+.dashboard-card h3 {
+    color: #388e3c; /* A distinct green for headings */
+}
+
+.dashboard-card a {
+    background-color: #4CAF50; /* Green button for Admin actions */
+}
+
+.dashboard-card a:hover {
+    background-color: #43a047;
+}
+
