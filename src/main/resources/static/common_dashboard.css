@@ -1,0 +1,119 @@
+/* Common styles for all dashboards */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Light grey background for all dashboards */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.dashboard-header {
+    background-color: #004d80; /* A dark blue for the header */
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0; /* Prevents header from shrinking */
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.dashboard-header .user-info {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between "Welcome" text and logout button */
+}
+
+.logout-btn {
+    background-color: #dc3545; /* Red logout button */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+.dashboard-content {
+    flex-grow: 1; /* Makes content take available vertical space */
+    padding: 20px;
+    max-width: 1200px; /* Max width for content */
+    margin: 20px auto; /* Centers content horizontally with vertical margin */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    width: calc(100% - 40px); /* Adjust width to account for padding/margin */
+}
+
+.dashboard-content h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 28px;
+}
+
+.dashboard-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; /* Space between cards */
+}
+
+.dashboard-card {
+    background-color: #ffffff; /* Default white background for cards */
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.08); /* Subtle shadow for cards */
+    transition: transform 0.2s ease-in-out;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px); /* Lift effect on hover */
+}
+
+.dashboard-card h3 {
+    color: #004d80; /* Dark blue for card titles */
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.dashboard-card p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.dashboard-card a {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #007bff; /* Primary blue button */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-card a:hover {
+    background-color: #0056b3;
+}
