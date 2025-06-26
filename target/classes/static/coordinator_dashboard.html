@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinator Dashboard - CEIL Vendor Portal</title>
+    
+    <!-- Common styles for all dashboards -->
+    <link rel="stylesheet" href="common_dashboard.css"> 
+    <!-- Specific styles for the Coordinator dashboard -->
+    <link rel="stylesheet" href="coordinator_dashboard.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>Coordinator Dashboard</h1>
+        <div class="user-info">
+            Welcome, Coordinator! <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <h2>Document Management & Workflow</h2>
+        <div class="dashboard-card-grid">
+            <div class="dashboard-card">
+                <h3>Incoming Documents</h3>
+                <p>View and manage documents uploaded by Vendors and Clients.</p>
+                <a href="#">Review Documents</a> <!-- Link to incoming documents list -->
+            </div>
+            <div class="dashboard-card">
+                <h3>Forward to Engineer</h3>
+                <p>Forward documents to the relevant CEIL Engineers for review and approval.</p>
+                <a href="#">Forward Documents</a> <!-- Link to document forwarding tool -->
+            </div>
+            <div class="dashboard-card">
+                <h3>Inspection Calls</h3>
+                <p>Review, reschedule, and approve inspection requests from Vendors.</p>
+                <a href="#">Manage Inspections</a> <!-- Link to inspection call management -->
+            </div>
+            <div class="dashboard-card">
+                <h3>PO Overview</h3>
+                <p>View status of Purchase Orders and their associated documents.</p>
+                <a href="#">View POs</a> <!-- Link to PO summary -->
+            </div>
+            <!-- Add more coordinator-specific cards as needed -->
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            fetch('/api/employee/logout', { // Assuming you have a logout endpoint in your backend
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/ceil%20emp.html'; // Redirect to login page after logout
+                } else {
+                    alert('Logout failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+                alert('An error occurred during logout.');
+            });
+        }
+    </script>
+</body>
+</html>

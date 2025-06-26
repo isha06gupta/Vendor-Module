@@ -408,3 +408,23 @@ footer {
     max-width: 97vw;
   }
 }
+.submission-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.submission-table th, .submission-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.submission-table th {
+  background-color:  #002e5d;
+  color: #fff;
+}
+
+.submission-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

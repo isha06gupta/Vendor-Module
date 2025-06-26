@@ -1,0 +1,17 @@
+.dashboard-card {
+    background-color: #bbdefb; /* Light blue for Engineer cards */
+    border: 1px solid #64b5f6;
+}
+
+.dashboard-card h3 {
+    color: #1976d2; /* A distinct blue for headings */
+}
+
+.dashboard-card a {
+    background-color: #2196F3; /* Blue button for Engineer actions */
+}
+
+.dashboard-card a:hover {
+    background-color: #1976d2;
+}
+

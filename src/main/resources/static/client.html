@@ -30,6 +30,7 @@
     <a href="#" id="nav-documents">Documents</a>
     <a href="#" id="nav-project">Project</a>
     <a href="#" id="nav-ongoing-projects">Ongoing Project</a>
+    <a href="#" id="nav-irn">View IRNs</a>
   </nav>
   <main>
     <!-- CLIENT INFO FORM -->
@@ -126,36 +127,39 @@
     </section>
     <!-- DOCUMENTS FORM -->
     <section id="section-documents" class="section">
-      <div class="form-container">
-        <h2>Upload Documents</h2>
-        <form id="documentsForm" autocomplete="off">
-          <div class="form-row">
-            <label for="pan">Company PAN Card (PDF) *</label>
-            <input type="file" id="pan" name="pan" accept="application/pdf" required />
-          </div>
-          <div class="form-row" id="gstDocRow" style="display:none;">
-            <label for="gstDoc">GST Certificate (PDF) *</label>
-            <input type="file" id="gstDoc" name="gstDoc" accept="application/pdf" />
-          </div>
-          <div class="form-row" id="udyamDocRow" style="display:none;">
-            <label for="udyamDoc">Udyam/MSME Certificate (PDF) *</label>
-            <input type="file" id="udyamDoc" name="udyamDoc" accept="application/pdf" />
-          </div>
-          <div class="form-row">
-            <label for="regProof">Company Registration Proof (ROC, Deed, etc.) (PDF) *</label>
-            <input type="file" id="regProof" name="regProof" accept="application/pdf" required />
-          </div>
-          <div class="form-row">
-            <label for="workOrder">Work Order/Tender Document (optional, PDF)</label>
-            <input type="file" id="workOrder" name="workOrder" accept="application/pdf" />
-          </div>
-          <div class="form-row full-width" style="display:flex;justify-content:space-between;">
-            <button type="button" class="prev-btn" id="backToCompanyInfo">&larr; Back</button>
-            <button type="button" class="next-btn" id="toProject">Next &rarr;</button>
-          </div>
-        </form>
+  <div class="form-container">
+    <h2>Upload Documents</h2>
+    <form id="documentsForm" autocomplete="off" enctype="multipart/form-data">
+      <!-- Hidden input for companyId (must be set after registration!) -->
+      <input type="hidden" id="companyId" name="companyId" value="" />
+
+      <div class="form-row">
+        <label for="panCard">Company PAN Card (PDF) *</label>
+        <input type="file" id="panCard" name="panCard" accept="application/pdf" required />
       </div>
-    </section>
+      <div class="form-row" id="gstDocRow" style="display:none;">
+        <label for="gstDoc">GST Certificate (PDF) *</label>
+        <input type="file" id="gstDoc" name="gstDoc" accept="application/pdf" />
+      </div>
+      <div class="form-row" id="udyamDocRow" style="display:none;">
+        <label for="udyamDoc">Udyam/MSME Certificate (PDF) *</label>
+        <input type="file" id="udyamDoc" name="udyamDoc" accept="application/pdf" />
+      </div>
+      <div class="form-row">
+        <label for="registrationProof">Company Registration Proof (ROC, Deed, etc.) (PDF) *</label>
+        <input type="file" id="registrationProof" name="registrationProof" accept="application/pdf" required />
+      </div>
+      <div class="form-row">
+        <label for="workOrder">Work Order/Tender Document (optional, PDF)</label>
+        <input type="file" id="workOrder" name="workOrder" accept="application/pdf" />
+      </div>
+      <div class="form-row full-width" style="display:flex;justify-content:space-between;">
+        <button type="button" class="prev-btn" id="backToCompanyInfo">&larr; Back</button>
+        <button type="submit" class="next-btn">Upload & Next &rarr;</button>
+      </div>
+    </form>
+  </div>
+</section>
     <!-- PROJECT SECTION -->
     <section id="section-project" class="section">
       <div class="form-container">
@@ -255,6 +259,28 @@
         </div>
       </div>
     </section>
+    <!-- IRNs SECTION -->
+    <section class="section" id="section-irn">
+      <div class="form-container">
+        <h2>Your IRNs</h2>
+        <table class="submission-table">
+          <thead>
+            <tr>
+              <th>S. No.</th>
+              <th>IRN Number</th>
+              <th>Invoice Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody id="irnTableBody">
+            <!-- JS will populate this -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
   </main>
   <!-- Footer Support Contact Modal Trigger -->
 <footer>
@@ -291,6 +317,6 @@
     </form>
   </div>
 </div>
-  <script src="client.js"></script>
+<script src="client.js"></script>
 </body>
 </html>
