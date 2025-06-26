@@ -11,7 +11,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background-color: rgba(33, 174, 240, 0.85); /* Your new header color */
+    padding: 15px 30px;
+    background-color: #004d80; /* Your new header color */
     padding: 5px 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
