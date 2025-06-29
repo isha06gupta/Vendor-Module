@@ -94,8 +94,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       const vendorId = localStorage.getItem('currentVendorId');
       if (!vendorId) {
-        alert("Please log in first.");
-        window.location.href = "index.html";
+        console.log("No vendor ID found, user needs to register first");
       }
     });
 
@@ -114,7 +113,7 @@
       submitBtn.textContent = "Registering...";
 
       try {
-        // Change the URL if your backend runs on a different port or path
+        // Use port 9090 to match your backend
         const response = await fetch('http://localhost:9090/api/vendor/personal-info', {
           method: 'POST',
           headers: {
@@ -136,10 +135,11 @@
         // Save vendor id if returned by backend
         if (responseData.id) {
           localStorage.setItem('currentVendorId', responseData.id);
+          console.log('Saved vendor ID:', responseData.id);
         }
 
         setTimeout(() => {
-          window.location.href = 'documents.html';
+          window.location.href = 'docupload.html';
         }, 1500);
 
       } catch (error) {

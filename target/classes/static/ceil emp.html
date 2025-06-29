@@ -1,85 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEIL Employee Login</title>
-    <link rel="stylesheet" href="ceil emp.css">
-    </head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CEIL Employee Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
 <body>
 
-    <header class="login-header">
-        <div class="login-header-left">
-            <img src="logo.JPG" alt="CEIL Logo" class="login-header-logo-left">
-        </div>
-    </header>
-
-    <div class="container">
-        <h2>CEIL Employee Login</h2>
-        <form id="employeeLoginForm">
-            <div class="form-group">
-                <label for="email">Official email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <div id="message" class="message"></div>
+<header>
+  <a href="index.html"><img src="logo.jpeg" class="logo" alt="Logo" /></a>
+  <nav>
+    <div class="nav-item"><a href="index.html">Home</a></div>
+    <div class="nav-item">
+      <a href="#">About CEIL</a>
+      <div class="dropdown">
+        <a href="#">Company Profile</a>
+        <a href="#">Vision and Mission</a>
+        <a href="#">Our Leaders</a>
+        <a href="#">Parent Company EIL</a>
+      </div>
     </div>
+  </nav>
+</header>
 
-    <script>
-        document.getElementById('employeeLoginForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Prevent default form submission
+<section class="employee-login-section">
+  <div class="employee-login-container">
+    <div class="employee-login-box">
+      <div class="employee-login-header">
+        <h2>CEIL Employee Login</h2>
+        <p>Active Directory Authentication</p>
+      </div>
+      
+      <form id="employeeLoginForm">
+        <div class="input-group">
+          <label for="employeeId">Employee ID</label>
+          <input type="text" id="employeeId" name="employeeId" placeholder="Enter your Employee ID" required />
+        </div>
+        
+        <div class="input-group">
+          <label for="employeePassword">Password</label>
+          <input type="password" id="employeePassword" name="password" placeholder="Enter your Password" required />
+        </div>
+        
+        <button type="submit" class="employee-login-btn">
+          <i class="fas fa-sign-in-alt"></i>
+          Login
+        </button>
+      </form>
+      
+      <div class="employee-login-footer">
+        <p><a href="index.html">← Back to Main Site</a></p>
+        <p class="demo-credentials">
+          <strong>Demo Credentials:</strong><br>
+          CEO: ceo001 / ceo123<br>
+          Admin: admin001 / admin123<br>
+          Coordinator: coord001 / coord123<br>
+          Engineer: eng001 / eng123
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            // REMOVED: const recaptchaResponse = grecaptcha.getResponse();
-
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = ''; // Clear previous messages
-
-            // REMOVED: CAPTCHA validation
-            // if (!recaptchaResponse) {
-            //     messageDiv.textContent = 'Please complete the CAPTCHA.';
-            //     messageDiv.style.color = 'red';
-            //     return;
-            // }
-
-            try {
-                // REMOVED: recaptchaResponse from requestBody
-                const requestBody = { email, password };
-
-                const response = await fetch('/api/employee/login', { // Backend login endpoint
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    messageDiv.textContent = result.message || 'Login successful!';
-                    messageDiv.style.color = 'green';
-                    // Redirect to an employee dashboard page after successful login
-                    window.location.href = '/employee/dashboard.html'; // You'll create this later
-                } else {
-                    // REMOVED: ' or CAPTCHA.' from message, and grecaptcha.reset()
-                    messageDiv.textContent = result.message || 'Login failed. Invalid credentials.';
-                    messageDiv.style.color = 'red';
-                    // REMOVED: grecaptcha.reset();
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                messageDiv.textContent = 'An error occurred during login. Please try again later.';
-                messageDiv.style.color = 'red';
-                // REMOVED: grecaptcha.reset();
-            }
-        });
-    </script>
+<script src="ceil-employee-auth.js"></script>
 </body>
 </html>

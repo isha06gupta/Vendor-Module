@@ -1,96 +1,203 @@
 package com.vendormodule.Vendor.Module.controller;
 
-import com.vendormodule.Vendor.Module.model.Vendor;
-import com.vendormodule.Vendor.Module.service.VendorService;
+import com.vendormodule.Vendor.Module.entity.VendorPersonalInfo;
+import com.vendormodule.Vendor.Module.entity.VendorDocuments;
+import com.vendormodule.Vendor.Module.repository.VendorPersonalInfoRepository;
+import com.vendormodule.Vendor.Module.repository.VendorDocumentsRepository;
+import com.vendormodule.Vendor.Module.filestorage.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/vendors")
-@CrossOrigin(origins = "http://localhost:9090") // Adjust as per your frontend port
+@RequestMapping("/api/vendor")
+@CrossOrigin(origins = "*")
 public class VendorController {
 
-    private final VendorService vendorService;
+    @Autowired
+    private VendorPersonalInfoRepository vendorPersonalInfoRepository;
 
     @Autowired
-    public VendorController(VendorService vendorService) {
-        this.vendorService = vendorService;
-    }
+    private VendorDocumentsRepository vendorDocumentsRepository;
 
-    // Vendor Registration
-    @PostMapping("/register")
-    public ResponseEntity<Vendor> registerVendor(@RequestBody Vendor vendor) {
+    @Autowired
+    private FileStorageService fileStorageService;
+
+    // Personal Info Registration
+    @PostMapping("/personal-info")
+    public ResponseEntity<?> savePersonalInfo(@RequestBody Map<String, Object> payload) {
+        System.out.println("=== VENDOR PERSONAL INFO REGISTRATION ===");
+        System.out.println("Received payload: " + payload);
+        
         try {
-            Vendor registeredVendor = vendorService.registerVendor(vendor);
-            return new ResponseEntity<>(registeredVendor, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-    }
-
-    // Get Vendor by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Vendor> getVendorById(@PathVariable Long id) {
-        return vendorService.getVendorById(id)
-                .map(vendor -> new ResponseEntity<>(vendor, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    // Update Vendor
-    @PutMapping("/{id}")
-    public ResponseEntity<Vendor> updateVendor(@PathVariable Long id, @RequestBody Vendor vendor) {
-        if (!id.equals(vendor.getId())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        try {
-            Vendor updatedVendor = vendorService.updateVendor(vendor);
-            return new ResponseEntity<>(updatedVendor, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            if (e.getMessage().contains("not found")) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            // Create VendorPersonalInfo entity
+            VendorPersonalInfo vendor = new VendorPersonalInfo();
+            vendor.setName((String) payload.get("name"));
+            
+            // Parse date of birth
+            String dobString = (String) payload.get("dob");
+            if (dobString != null && !dobString.isEmpty()) {
+                vendor.setDateOfBirth(LocalDate.parse(dobString));
             }
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-    }
+            
+            vendor.setContactPerson((String) payload.get("contact_person"));
+            vendor.setPhone((String) payload.get("phone"));
+            vendor.setEmail((String) payload.get("email"));
+            vendor.setAddress((String) payload.get("address"));
+            vendor.setGstin((String) payload.get("gstin"));
+            vendor.setIsMsme((String) payload.get("is_msme"));
+            
+            System.out.println("Created vendor: " + vendor.getName());
 
-    // Upload documents
-    @PostMapping(value = "/upload-documents/{vendorId}", consumes = {"multipart/form-data"})
-    public ResponseEntity<String> uploadAllVendorDocuments(
-            @PathVariable Long vendorId,
-            @RequestParam("incorporationCertUpload") MultipartFile incorporationCertUpload,
-            @RequestParam("panUpload") MultipartFile panUpload,
-            @RequestParam("gstUpload") MultipartFile gstUpload,
-            @RequestParam("bankUpload") MultipartFile bankUpload,
-            @RequestParam("certUpload") MultipartFile certUpload) {
+            // Save vendor
+            VendorPersonalInfo savedVendor = vendorPersonalInfoRepository.save(vendor);
+            System.out.println("Saved vendor with ID: " + savedVendor.getId());
 
-        try {
-            if (incorporationCertUpload.isEmpty() || panUpload.isEmpty() || gstUpload.isEmpty()
-                    || bankUpload.isEmpty() || certUpload.isEmpty()) {
-                return new ResponseEntity<>("All mandatory files must be provided.", HttpStatus.BAD_REQUEST);
-            }
+            // Return response with vendor ID
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Vendor registered successfully");
+            response.put("id", savedVendor.getId());
+            response.put("name", savedVendor.getName());
 
-            Map<String, MultipartFile> documents = new HashMap<>();
-            documents.put("incorporationCertUpload", incorporationCertUpload);
-            documents.put("panUpload", panUpload);
-            documents.put("gstUpload", gstUpload);
-            documents.put("bankUpload", bankUpload);
-            documents.put("certUpload", certUpload);
-
-            vendorService.uploadVendorDocuments(vendorId, documents);
-            return new ResponseEntity<>("Documents uploaded successfully for vendor " + vendorId, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("Error processing documents: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (IOException e) {
-            return new ResponseEntity<>("Error storing documents: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.ok(response);
+            
         } catch (Exception e) {
-            return new ResponseEntity<>("An unexpected error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            System.out.println("ERROR in vendor registration: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Registration failed: " + e.getMessage());
         }
+    }
+
+    // Document Upload
+    @PostMapping("/upload-documents/{vendorId}")
+    public ResponseEntity<?> uploadDocuments(
+        @PathVariable Integer vendorId,
+        @RequestParam("incorporationCertUpload") MultipartFile incorporationCert,
+        @RequestParam("panUpload") MultipartFile panCard,
+        @RequestParam("gstUpload") MultipartFile gstCert,
+        @RequestParam("bankUpload") MultipartFile bankPassbook,
+        @RequestParam("certUpload") MultipartFile certification
+    ) {
+        System.out.println("=== VENDOR DOCUMENT UPLOAD ===");
+        System.out.println("Vendor ID: " + vendorId);
+        
+        try {
+            // Find vendor
+            Optional<VendorPersonalInfo> vendorOpt = vendorPersonalInfoRepository.findById(vendorId);
+            if (!vendorOpt.isPresent()) {
+                return ResponseEntity.badRequest().body("Vendor not found with ID: " + vendorId);
+            }
+            
+            VendorPersonalInfo vendor = vendorOpt.get();
+            System.out.println("Found vendor: " + vendor.getName());
+
+            // Validate required files
+            if (incorporationCert.isEmpty() || panCard.isEmpty() || gstCert.isEmpty() || 
+                bankPassbook.isEmpty() || certification.isEmpty()) {
+                return ResponseEntity.badRequest().body("All documents are required");
+            }
+
+            // Store files
+            String incorporationCertPath = fileStorageService.storeFile(incorporationCert, "vendor_docs/incorporation");
+            String panCardPath = fileStorageService.storeFile(panCard, "vendor_docs/pan");
+            String gstCertPath = fileStorageService.storeFile(gstCert, "vendor_docs/gst");
+            String bankPassbookPath = fileStorageService.storeFile(bankPassbook, "vendor_docs/bank");
+            String certificationPath = fileStorageService.storeFile(certification, "vendor_docs/certification");
+
+            System.out.println("All files stored successfully");
+
+            // Create or update vendor documents
+            VendorDocuments vendorDocs = vendorDocumentsRepository.findByVendorPersonalInfoId(vendorId)
+                .orElse(new VendorDocuments());
+            
+            vendorDocs.setIncorporationCertPath(incorporationCertPath);
+            vendorDocs.setPanCardPath(panCardPath);
+            vendorDocs.setGstCertPath(gstCertPath);
+            vendorDocs.setBankPassbookPath(bankPassbookPath);
+            vendorDocs.setCertificationPath(certificationPath);
+            vendorDocs.setVendorPersonalInfo(vendor);
+
+            vendorDocumentsRepository.save(vendorDocs);
+            System.out.println("Vendor documents saved successfully");
+
+            return ResponseEntity.ok("Documents uploaded successfully");
+            
+        } catch (Exception e) {
+            System.out.println("ERROR in document upload: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Document upload failed: " + e.getMessage());
+        }
+    }
+
+    // Get Personal Info
+    @GetMapping("/personal-info/{vendorId}")
+    public ResponseEntity<?> getPersonalInfo(@PathVariable Integer vendorId) {
+        System.out.println("=== GET VENDOR PERSONAL INFO ===");
+        System.out.println("Vendor ID: " + vendorId);
+        
+        try {
+            Optional<VendorPersonalInfo> vendorOpt = vendorPersonalInfoRepository.findById(vendorId);
+            if (!vendorOpt.isPresent()) {
+                return ResponseEntity.badRequest().body("Vendor not found with ID: " + vendorId);
+            }
+            
+            VendorPersonalInfo vendor = vendorOpt.get();
+            System.out.println("Found vendor: " + vendor.getName());
+            
+            return ResponseEntity.ok(vendor);
+            
+        } catch (Exception e) {
+            System.out.println("ERROR fetching vendor info: " + e.getMessage());
+            return ResponseEntity.status(500).body("Failed to fetch vendor info: " + e.getMessage());
+        }
+    }
+
+    // Get Documents
+    @GetMapping("/documents/{vendorId}")
+    public ResponseEntity<?> getDocuments(@PathVariable Integer vendorId) {
+        System.out.println("=== GET VENDOR DOCUMENTS ===");
+        System.out.println("Vendor ID: " + vendorId);
+        
+        try {
+            Optional<VendorDocuments> docsOpt = vendorDocumentsRepository.findByVendorPersonalInfoId(vendorId);
+            if (!docsOpt.isPresent()) {
+                return ResponseEntity.badRequest().body("Documents not found for vendor ID: " + vendorId);
+            }
+            
+            VendorDocuments docs = docsOpt.get();
+            System.out.println("Found documents for vendor");
+            
+            return ResponseEntity.ok(docs);
+            
+        } catch (Exception e) {
+            System.out.println("ERROR fetching vendor documents: " + e.getMessage());
+            return ResponseEntity.status(500).body("Failed to fetch vendor documents: " + e.getMessage());
+        }
+    }
+
+    // Get All Vendors
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllVendors() {
+        System.out.println("=== GET ALL VENDORS ===");
+        
+        try {
+            return ResponseEntity.ok(vendorPersonalInfoRepository.findAll());
+        } catch (Exception e) {
+            System.out.println("ERROR fetching all vendors: " + e.getMessage());
+            return ResponseEntity.status(500).body("Failed to fetch vendors: " + e.getMessage());
+        }
+    }
+
+    // Test endpoint
+    @GetMapping("/test")
+    public ResponseEntity<String> testEndpoint() {
+        System.out.println("=== VENDOR CONTROLLER TEST ===");
+        return ResponseEntity.ok("Vendor controller is working!");
     }
 }

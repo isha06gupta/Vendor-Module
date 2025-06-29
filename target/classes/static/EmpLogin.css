@@ -19,7 +19,7 @@ body {
 
 /* --- NEW LOGIN HEADER (for employee_login.html) --- */
 .login-header {
-    background-color: rgba(33, 174, 240, 0.85); /* Dark background */
+    background-color: #004d80; /* Dark background */
     color: white;
     padding: 10px 20px;
     width: 100%;
